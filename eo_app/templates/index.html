@@ -1,71 +1,100 @@
-<!DOCTYPE html>
 {% extends 'main.html' %}
 {% load static %}
+
+{% block title %}Episode One - Home{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+{% endblock %}
+
 {% block content %}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-     <!-- Include jQuery and jQuery UI scripts -->
-     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-
-</head>
-<body>
-
-  <div class="banner">
-    <img src="{% static 'images/banner_img.png' %}" alt="Background Image" class="banner-bg">
-    <div class="banner-content">
-      <h1>You found us!</h1>
-      <p>Discover new television writers daily.</p>
-    </div>
-    <div class="banner-overlay"></div>
+<div class="banner">
+  <img src="{% static 'images/banner_img.png' %}" alt="Background Image" class="banner-bg">
+  <div class="banner-content">
+    <h1>You found us!</h1>
+    <p>Discover new television writers daily.</p>
   </div>
-  
-  
-  
-  
+  <div class="banner-overlay"></div>
+</div>
 
+{% if featured_show %}
+<div class="featured-show fade-in">
+  <div class="featured-show-label">✦ Pilot of the Week</div>
+  <div class="featured-show-content">
+    <div class="featured-show-poster">
+      <a href="{% url 'show_page' featured_show.id %}">
+        <img src="https://image.tmdb.org/t/p/w500/{{ featured_show.tmdb_poster_path }}" alt="{{ featured_show.title }}" loading="lazy">
+      </a>
+    </div>
+    <div class="featured-show-details">
+      <h2><a href="{% url 'show_page' featured_show.id %}">{{ featured_show.title }}</a></h2>
+      <div class="featured-show-creators">
+        <span>Created by </span>
+        {% for creator in featured_show.creators.all %}
+          <a href="{% url 'creator' creator.id %}">{{ creator.name }}</a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      </div>
+      <div class="featured-show-tags">
+        {% for tag in featured_show.tags.all %}
+          <span class="featured-tag">{{ tag.genre }}</span>
+        {% endfor %}
+      </div>
+      <p class="featured-show-overview">{{ featured_show.tmdb_overview|truncatewords:50 }}</p>
+      <div class="featured-show-actions">
+        <a href="{% url 'show_page' featured_show.id %}" class="featured-show-btn">View Pilot</a>
+        {% if featured_show.script %}
+          <a href="{{ featured_show.script.url }}" target="_blank" class="featured-show-btn featured-show-btn-outline">Read Script</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
 
- <!-- Displays the most recently added tv pilots -->
-  <div class="rec-added-tv-shows">
-    <div class="rec-added-tv-shows-header">Recently Added Pilots</div>
-    <div class="rec-added-tv-posters">
-      {% for show in shows|slice:":10" %}
-        <div class="rec-added-tv-poster">
-          <img src="{{ show.poster.url }}" alt="{{ show.title }}">
-          <div class="rec-added-tv-details">
-            <a href="{% url 'show_page' show.id %}" class="rec-added-tv-title">{{ show.title }}</a>
-            <p>Page Count: {{ show.count }}</p>
-            <div class="creators-container">
-              <div class="creators">
-                {% for creator in show.creators.all %}
-                 <a href="{% url 'creator' creator.id %}">{{ creator.name }}</a>{% if not forloop.last %}, {% endif %}
-                {% endfor %}
-              </div>
+<div class="rec-added-tv-shows">
+  <div class="rec-added-tv-shows-header fade-in">Recently Added Pilots</div>
+  <div class="rec-added-tv-posters">
+    {% for show in shows %}
+      <div class="rec-added-tv-poster pop-in">
+        {% if show.tmdb_poster_path %}
+          <img src="https://image.tmdb.org/t/p/w500/{{ show.tmdb_poster_path }}" alt="{{ show.title }}" loading="lazy">
+        {% elif show.poster %}
+          <img src="{{ show.poster.url }}" alt="{{ show.title }}" loading="lazy">
+        {% endif %}
+        <div class="rec-added-tv-details">
+          <a href="{% url 'show_page' show.id %}" class="rec-added-tv-title">{{ show.title }}</a>
+          <p>Page Count: {{ show.count }}</p>
+          <div class="creators-container">
+            <div class="creators">
+              {% for creator in show.creators.all %}
+                <a href="{% url 'creator' creator.id %}">{{ creator.name }}</a>{% if not forloop.last %}, {% endif %}
+              {% endfor %}
             </div>
-            <a href="{{ show.script.url }}" target="_blank">Read Me</a>
           </div>
+          {% if show.script %}
+            <a href="{{ show.script.url }}" target="_blank">Read Me</a>
+          {% endif %}
         </div>
-      {% endfor %}
-    </div>
+      </div>
+    {% endfor %}
   </div>
-  
-   
-<!-- Displays the randomly generated suggested writers from the db -->
+</div>
+
 <div class="creator-of-the-month">
-  <div class="creator-of-the-month-header">Suggested Show Creators</div>
+  <div class="creator-of-the-month-header fade-in">Suggested Show Creators</div>
   <div class="creator-of-the-month-list">
     {% for creator_of_the_month in creators_of_the_month %}
-      <div class="individual-creator-of-the-month">
+      <div class="individual-creator-of-the-month fade-in">
         <div class="individual-creator-of-the-month-image">
           <a href="{% url 'creator' creator_of_the_month.creator_id %}">
-            <img src="{{ creator_of_the_month.creator_image }}" alt="{{ creator_of_the_month.creator_name }}">
+            {% if creator_of_the_month.has_image %}
+              <img src="{{ creator_of_the_month.creator_image }}" alt="{{ creator_of_the_month.creator_name }}" loading="lazy">
+            {% else %}
+              <div class="creator-placeholder">
+                <span class="creator-placeholder-initials">Coming Soon</span>
+              </div>
+            {% endif %}
           </a>
           <div class="individual-creator-of-the-month-overlay"></div>
         </div>
@@ -75,7 +104,11 @@
           <ul class="script-list">
             {% for show in creator_of_the_month.current_scripts|slice:":3" %}
               <li>
-                <img src="{{ show.poster.url }}" alt="{{ show.title }} Poster">
+                {% if show.tmdb_poster_path %}
+                  <img src="https://image.tmdb.org/t/p/w500/{{ show.tmdb_poster_path }}" alt="{{ show.title }} Poster" loading="lazy">
+                {% elif show.poster %}
+                  <img src="{{ show.poster.url }}" alt="{{ show.title }} Poster" loading="lazy">
+                {% endif %}
               </li>
             {% endfor %}
           </ul>
@@ -85,78 +118,50 @@
   </div>
 </div>
 
-</div>
-
-
-    
-<!-- Displays staff favorites in the db -->
 <div class="staff-favorites">
-  <div class="staff-favorites-header">Staff Favorites</div>
+  <div class="staff-favorites-header fade-in">Staff Favorites</div>
   <div class="staff-favorites-show-list">
-    {% for favorite in staff_favorites|slice:":10" %}
-      <div class="staff-favorites-show-item">
-        {% if favorite.show.poster %}
-          <a href="{% url 'show_page' favorite.show.id %}">
-            <div class="staff-favorites-show-poster">
-              <img class="staff-favorites-poster" src="{{ favorite.show.poster.url }}" alt="Poster">
-              <div class="staff-favorites-poster-overlay">
-                <p class="staff-favorites-poster-title">{{ favorite.show.title }}</p>
-              </div>
+    {% for favorite in staff_favorites %}
+      <div class="staff-favorites-show-item pop-in">
+        <a href="{% url 'show_page' favorite.show.id %}">
+          <div class="staff-favorites-show-poster">
+            {% if favorite.show.tmdb_poster_path %}
+              <img class="staff-favorites-poster" src="https://image.tmdb.org/t/p/w500/{{ favorite.show.tmdb_poster_path }}" alt="{{ favorite.show.title }}" loading="lazy">
+            {% elif favorite.show.poster %}
+              <img class="staff-favorites-poster" src="{{ favorite.show.poster.url }}" alt="{{ favorite.show.title }}" loading="lazy">
+            {% endif %}
+            <div class="staff-favorites-poster-overlay">
+              <p class="staff-favorites-poster-title">{{ favorite.show.title }}</p>
             </div>
-          </a>
-        {% endif %}
+          </div>
+        </a>
       </div>
     {% endfor %}
-    <!-- Add the "More" link for Staff Favorites -->
     <a href="{% url 'all_staff_favorites' %}" class="more-link-staff-favorites">More</a>
   </div>
 </div>
 
-
-
-    <div class="influential-shows">
-      <div class="influential-shows-header">Influential Shows</div>
-      <div class="influential-shows-show-list">
-        {% for influential_show in influential_shows|slice:":10" %}
-          <div class="influential-shows-show-item">
-            {% if influential_show.show.poster %}
-              <a href="{% url 'show_page' influential_show.show.id %}">
-                <div class="influential-shows-show-poster">
-                  <img class="influential-shows-poster" src="{{ influential_show.show.poster.url }}" alt="Poster">
-                  <div class="influential-shows-poster-overlay">
-                    <p class="influential-shows-poster-title">{{ influential_show.show.title }}</p>
-                  </div>
-                </div>
-              </a>
+<div class="influential-shows">
+  <div class="influential-shows-header fade-in">Influential Shows</div>
+  <div class="influential-shows-show-list">
+    {% for influential_show in influential_shows %}
+      <div class="influential-shows-show-item pop-in">
+        <a href="{% url 'show_page' influential_show.show.id %}">
+          <div class="influential-shows-show-poster">
+            {% if influential_show.show.tmdb_poster_path %}
+              <img class="influential-shows-poster" src="https://image.tmdb.org/t/p/w500/{{ influential_show.show.tmdb_poster_path }}" alt="{{ influential_show.show.title }}" loading="lazy">
+            {% elif influential_show.show.poster %}
+              <img class="influential-shows-poster" src="{{ influential_show.show.poster.url }}" alt="{{ influential_show.show.title }}" loading="lazy">
             {% endif %}
+            <div class="influential-shows-poster-overlay">
+              <p class="influential-shows-poster-title">{{ influential_show.show.title }}</p>
+            </div>
           </div>
-        {% endfor %}
-        <!-- Add the "More" link after the loop -->
-        <a class="more-link" href="{% url 'influential_shows' %}">More</a>
+        </a>
       </div>
-    </div>
-    
-      <script>
-        // Function to handle hiding poster images if needed
-        function handleScriptList() {
-          const scriptListContainer = document.querySelector('.script-list-container');
-          const scriptListItems = scriptListContainer.querySelectorAll('li');
-          const maxHeight = 200; // Adjust this value as needed
-      
-          let totalHeight = 0;
-          for (const listItem of scriptListItems) {
-            totalHeight += listItem.clientHeight;
-            if (totalHeight > maxHeight) {
-              listItem.querySelector('img').style.display = 'none';
-            }
-          }
-        }
-      
-        // Call the function on page load
-        window.addEventListener('load', handleScriptList);      
-      </script>
+    {% endfor %}
+    <a class="more-link" href="{% url 'influential_shows' %}">More</a>
+  </div>
+</div>
 
-      
-</body>
-</html>
 {% endblock content %}

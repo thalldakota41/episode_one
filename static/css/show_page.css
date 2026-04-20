@@ -1,17 +1,16 @@
 body {
     margin: 0;
     background-color: white;
-    font-family: 'Roboto', sans-serif; /* Add your desired font name */
+    font-family: 'Roboto', sans-serif;
 }
 
 .container-2 {
     display: flex;
-    background-color: #D4AF37; 
+    background-color: #D4AF37;
     margin-top: 30px;
 }
 
 .poster img {
-    width: 100%;
     border: 4px solid white;
     width: 290px;
     height: 400px;
@@ -19,10 +18,7 @@ body {
 
 .poster {
     border-radius: 3px;
-    box-shadow: 1px;
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-top: 20px;
+    padding: 20px 40px;
 }
 
 .data-container {
@@ -30,9 +26,9 @@ body {
 }
 
 .show-title {
-    color: #1f1f1f; 
+    color: #1f1f1f;
     margin-top: 40px;
-    font-size: 24px; 
+    font-size: 24px;
 }
 
 .show-creator a {
@@ -44,7 +40,6 @@ body {
 .show-creator a:hover {
     text-decoration: underline;
 }
-
 
 .show-overview {
     color: #1f1f1f;
@@ -61,14 +56,14 @@ body {
     text-decoration: none;
     color: #fff;
     background-color: #333;
-    border: 4px solid white; /* Add a border */
+    border: 4px solid white;
     border-radius: 3px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
     width: 290px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  }
-  
+}
+
 .show-screenplay:hover {
     background-color: #555;
     transform: scale(1.1);
@@ -82,40 +77,102 @@ body {
     transform: scale(0.9);
 }
 
-  
+/* Share bar */
+.share-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.share-label {
+    font-size: 13px;
+    font-weight: bold;
+    color: #1f1f1f;
+    letter-spacing: 0.5px;
+}
+
+.share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s;
+    border: none;
+    letter-spacing: 0.3px;
+}
+
+.share-btn:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+.share-twitter {
+    background-color: #000;
+    color: white;
+    font-size: 15px;
+}
+
+.share-facebook {
+    background-color: #1877F2;
+    color: white;
+    font-size: 16px;
+    font-family: serif;
+}
+
+.share-instagram {
+    background-color: #1f1f1f;
+    color: white;
+    font-size: 12px;
+}
+
 .rec-title {
-    margin-top: 20px; 
+    margin-top: 20px;
     text-align: left;
     margin-left: 20px;
 }
 
 .rec-title h5 {
-    font-size: 20px; 
-    color: #1f1f1f; 
+    font-size: 20px;
+    color: #1f1f1f;
     display: inline-block;
-	border-bottom: 1px solid;
-	margin-bottom: 10px;
-	padding-bottom: 5px;
+    border-bottom: 1px solid;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
 }
 
 .rec-nav-bar {
     display: flex;
     overflow-x: auto;
+    overflow-y: hidden;
     scroll-behavior: smooth;
     padding: 10px;
     background-color: #D4AF37;
     margin-top: 10px;
     margin-bottom: 30px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
 
+.rec-nav-bar::-webkit-scrollbar {
+    display: none;
 }
 
 .rec-poster {
     position: relative;
-    width: 250px;
+    width: 200px;
     height: auto;
     margin-right: 10px;
     overflow: hidden;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
 .rec-poster img {
@@ -138,7 +195,7 @@ body {
     left: 0;
     width: 100%;
     padding: 5px;
-    background-color:black;
+    background-color: black;
     color: white;
     opacity: 0;
     transition: opacity 0.3s;
@@ -166,9 +223,9 @@ body {
     font-size: 18px;
     font-weight: bold;
     display: inline-block;
-	border-bottom: 1px solid;
-	margin-bottom: 10px;
-	padding-bottom: 5px;
+    border-bottom: 1px solid;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
 }
 
 .tags ul {
@@ -187,4 +244,82 @@ body {
 
 .tags li:not(:last-child) {
     margin-right: 8px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .container-2 {
+        flex-direction: column;
+        margin-top: 15px;
+    }
+
+    .poster {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .poster img {
+        width: 200px;
+        height: 280px;
+    }
+
+    .show-screenplay {
+        width: 200px;
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+
+    .data-container {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .show-title {
+        margin-top: 10px;
+        font-size: 20px;
+    }
+
+    .show-overview {
+        margin-right: 0;
+    }
+
+    .rec-poster {
+        width: 150px;
+    }
+
+    .share-bar {
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .poster img {
+        width: 160px;
+        height: 230px;
+    }
+
+    .show-screenplay {
+        width: 160px;
+        font-size: 13px;
+    }
+
+    .show-title {
+        font-size: 18px;
+    }
+
+    .rec-poster {
+        width: 120px;
+    }
+
+    .tags li {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    .share-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
 }

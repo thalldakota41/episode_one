@@ -1,0 +1,93 @@
+/* Shared grid layout for search results, staff favorites, and influential shows */
+
+.title-container {
+    text-align: center;
+}
+
+.search-results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.search-result {
+    position: relative;
+    flex: 0 0 calc(33.33% - 20px);
+    max-width: calc(33.33% - 20px);
+    margin-bottom: 20px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.search-result img {
+    width: 350px;
+    height: 500px;
+}
+
+.search-result .poster-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 350px;
+    height: 500px;
+    margin-left: 11px;
+    margin-top: 10px;
+    background: rgba(243, 230, 183, 0.8);
+    color: white;
+    opacity: 0;
+    transition: opacity 0.25s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.search-result:hover .poster-overlay {
+    opacity: 1;
+}
+
+.poster-overlay .title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.poster-overlay .creators {
+    font-size: 14px;
+}
+
+.title a,
+.creators a {
+    color: black;
+}
+
+.search-result h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.search-result p {
+    font-size: 14px;
+    color: #777;
+}
+
+.search-results-count {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.pagination a {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    color: #333;
+}
+
+.pagination p {
+    margin: 0 10px;
+}

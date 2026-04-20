@@ -1,38 +1,61 @@
-<!DOCTYPE html>
 {% extends 'main.html' %}
 {% load static %}
-{% block content %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/influential_shows.css' %}">
-    <title>Influential Shows</title>
-</head>
-<body>
-   
-    <div class="title-container">
-      <h2 class="influential-shows-header">Influential Shows</h2>
-    </div>
 
-    <div class="search-results">
-        {% for influential_show in influential_shows %}
-          <div class="search-result">
-            {% if influential_show.show.poster %}
-              <img src="{{ influential_show.show.poster.url }}" alt="{{ influential_show.show.title }} Poster">
-              <div class="poster-overlay">
-                <div class="title"><a href="{% url 'show_page' influential_show.show.id %}">{{ influential_show.show.title }}</a></div>
-                <div class="creators">
-                  {% for creator in influential_show.show.creators.all %}
-                    <a href="{% url 'creator' creator.id %}">{{ creator.name }}</a>{% if not forloop.last %}, {% endif %}
-                  {% endfor %}
+{% block title %}Influential Shows - Episode One{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/influential_shows.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="title-container">
+    <h2 class="influential-shows-header">Influential Shows</h2>
+</div>
+
+<div class="search-results">
+    {% for influential_show in influential_shows %}
+        <div class="search-result">
+            {% if influential_show.show.tmdb_poster_path %}
+                <img src="https://image.tmdb.org/t/p/w500/{{ influential_show.show.tmdb_poster_path }}" alt="{{ influential_show.show.title }} Poster" loading="lazy">
+                <div class="poster-overlay">
+                    <div class="title">
+                        <a href="{% url 'show_page' influential_show.show.id %}">{{ influential_show.show.title }}</a>
+                    </div>
+                    <div class="creators">
+                        {% for creator in influential_show.show.creators.all %}
+                            <a href="{% url 'creator' creator.id %}">{{ creator.name }}</a>{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
-              </div>
+            {% elif influential_show.show.poster %}
+                <img src="{{ influential_show.show.poster.url }}" alt="{{ influential_show.show.title }} Poster" loading="lazy">
+                <div class="poster-overlay">
+                    <div class="title">
+                        <a href="{% url 'show_page' influential_show.show.id %}">{{ influential_show.show.title }}</a>
+                    </div>
+                    <div class="creators">
+                        {% for creator in influential_show.show.creators.all %}
+                            <a href="{% url 'creator' creator.id %}">{{ creator.name }}</a>{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="poster-overlay">
+                    <div class="title">
+                        <a href="{% url 'show_page' influential_show.show.id %}">{{ influential_show.show.title }}</a>
+                    </div>
+                    <div class="creators">
+                        {% for creator in influential_show.show.creators.all %}
+                            <a href="{% url 'creator' creator.id %}">{{ creator.name }}</a>{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
             {% endif %}
-          </div>
-        {% endfor %}
-      </div>
-      
-</body>
-</html>
+        </div>
+    {% empty %}
+        <p>No influential shows yet.</p>
+    {% endfor %}
+</div>
+
 {% endblock content %}

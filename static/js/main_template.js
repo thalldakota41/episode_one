@@ -1,81 +1,97 @@
-
-
 (function() {
 
-  // Gets the search input element
-  const searchInput = $('#search');
+    // Search autocomplete
+    const searchInput = $('#search');
+    const searchResultsContainer = $('#search-results');
 
-  // Gets the search results container element
-  const searchResultsContainer = $('#search-results');
+    searchInput.autocomplete({
+        source: function(request, response) {
+            const searchQuery = request.term.trim();
 
-  // Attachs an autocomplete behavior to the search input
-  searchInput.autocomplete({
+            if (searchQuery === '') {
+                searchResultsContainer.empty();
+                return;
+            }
 
-    // The source function to fetch autocomplete suggestions
-    source: function(request, response) {
-
-      // Trims the search query and store it in a variable
-      const searchQuery = request.term.trim();
-
-      // If the search query is empty, clears the search results container and return
-      if (searchQuery === '') {
-        searchResultsContainer.empty();
-        return;
-      }
-
-      // Performs an AJAX request to get search results from the server
-      $.ajax({
-        url: '/search/',
-        method: 'GET',
-        data: { search: searchQuery },
-        success: function(data) {
-          // If the server returns results, formats and displays them in the autocomplete
-          if (data.results.length > 0) {
-            const formattedResults = data.results.slice(0, 5).map(function(show) {
-              return {
-                label: show.title,
-                value: show.title,
-                poster: show.poster
-              };
+            $.ajax({
+                url: '/search/',
+                method: 'GET',
+                data: { search: searchQuery },
+                success: function(data) {
+                    if (data.results.length > 0) {
+                        const formattedResults = data.results.slice(0, 5).map(function(show) {
+                            return {
+                                label: show.title,
+                                value: show.title,
+                                poster: show.poster
+                            };
+                        });
+                        response(formattedResults);
+                    } else {
+                        response([]);
+                    }
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                    response([]);
+                }
             });
-            response(formattedResults);
-          } else {
-            // If no results are returned, displays an emptys result list
-            response([]);
-          }
         },
-        error: function(error) {
-          // Handles errors and display an empty result list
-          console.error('Error:', error);
-          response([]);
+
+        create: function() {
+            $(this).data('ui-autocomplete')._renderItem = function(ul, item) {
+                const showHtml = `
+                    <div class="show-result">
+                        <img src="${item.poster}" alt="${item.label} Poster">
+                        <h3>${item.label}</h3>
+                    </div>
+                `;
+                return $('<li>').append(showHtml).appendTo(ul);
+            };
+        },
+
+        minLength: 0
+    });
+
+    $('#search').keydown(function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            $('#search-form').submit();
         }
-      });
-    },
+    });
 
-    // The create function to customize the autocomplete result item rendering
-    create: function() {
-      $(this).data('ui-autocomplete')._renderItem = function(ul, item) {
-        // Creates HTML for each result item with title and poster
-        const showHtml = `
-          <div class="show-result">
-            <img src="${item.poster}" alt="${item.label} Poster">
-            <h3>${item.label}</h3>
-          </div>
-        `;
-        return $('<li>').append(showHtml).appendTo(ul);
-      };
-    },
-
-    // Sets the minimum length required to trigger autocomplete suggestions
-    minLength: 0
-  });
-
-  // Attachs a keydown event handler to the search input
-  $('#search').keydown(function(event) {
-    // If the 'Enter' key is pressed, it prevents the default form submission and submit the search form
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      $('#search-form').submit();
-    }
-  });
 })();
+
+// Scroll animations using Intersection Observer
+document.addEventListener('DOMContentLoaded', function() {
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px 0px 0px'
+    });
+
+    document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .pop-in').forEach(function(el) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom >= 0) {
+            el.classList.add('visible');
+        } else {
+            observer.observe(el);
+        }
+    });
+
+    // Back to top button
+    window.addEventListener('scroll', function() {
+        const backToTop = document.getElementById('back-to-top');
+        if (window.scrollY > 500) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
+    });
+});

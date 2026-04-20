@@ -1,61 +1,42 @@
 {% extends 'main.html' %}
 {% load static %}
-{% block content %}
+
+{% block title %}Contact - Episode One{% endblock %}
+
+{% block extra_css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/comment.css' %}">
+{% endblock %}
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="form-wrapper">
-                    <form action="{% url 'comment_submit' %}" method="POST">
-                        {% csrf_token %}
-                        <h1>Leave a Comment</h1>
-                        <!-- inputs -->
-                        <div class="form-group">
-                            <label class="sr-only" for="name">Name</label>
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                </div>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Name">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="sr-only" for="email">Email</label>
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                                </div>
-                                <input type="text" class="form-control" id="email" name="email" placeholder="Email">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="sr-only" for="message">Message</label>
-                            <textarea class="form-control" id="message" rows="6" name="message" placeholder="Message"></textarea>
-                        </div>
-            
-                        <!-- buttons -->
-                        <div class="btn-group pull-right" role="group">
-                            <button type="submit" class="btn btn-primary submit">
-                                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Submit
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+{% block content %}
+
+<div class="comment-page fade-in">
+    <div class="comment-card">
+        <div class="comment-header">
+            <h1>Got thoughts?</h1>
+            <p>We'd love to hear from you. Whether it's feedback, a suggestion, or just a hello — drop us a note.</p>
         </div>
-    </div>
 
-    <script>
-        $(document).ready(function() {
-            $('.form-wrapper button.submit').click(function(e){
-                // prevent default submit
-                e.preventDefault();
-                
-                // submit the form programmatically
-                $(this).closest('form').submit();
-            });
-        });
-    </script>
+        <form action="{% url 'comment_submit' %}" method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Your name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="6" placeholder="What's on your mind?" required></textarea>
+            </div>
+
+            <button type="submit" class="comment-submit-btn">Send Message</button>
+        </form>
+    </div>
+</div>
 
 {% endblock content %}

@@ -1,39 +1,46 @@
 {% extends 'main.html' %}
-    {% load static %}
-    {% block content %}
+{% load static %}
 
-    <link rel="stylesheet" type="text/css" href="{% static 'css/about.css' %}">
-    <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    
+{% block title %}Our Mission - Episode One{% endblock %}
 
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-        <div class="about-section paddingTB60 gray-bg">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-7 col-sm-6">
-                        <div class="about-title clearfix">
-                            <h1>About <span>Episode One</span></h1>
-                            <h3>Looking for a TV pilot? We might have it! </h3>
-                            <p class="about-paddingB">We only post television pilots that have aired for aspiring writers looking for a future in television.</p>
-                            <p>And everyone else with a natural proclivity for reading teleplays.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <div class="attribution-section paddingTB60 gray-bg">
-        <div class="fair-notice-container" id="fair-use">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2> Fair Use Notice</h2>
-                    <p>This site contains copyrighted material that may not have been specifically authorized by the copyright owner. We use the television pilot screenplays for educational purposes and provide a database for other aspiring televsion writers.</p>
-                    
-                </div>
-            </div>
-        </div>
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/about.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="about-hero fade-in">
+    <div class="about-hero-content">
+        <h1>About <span>Episode One</span></h1>
+        <p class="about-tagline">A home for TV pilot screenplays and the writers behind them.</p>
     </div>
-    
-    {% endblock content %}
-    
+</div>
+
+<div class="about-section fade-in">
+    <div class="about-card">
+        <div class="about-card-icon">📺</div>
+        <h2>What We Do</h2>
+        <p>Episode One is a curated database of television pilot screenplays. We only post pilots that have aired, giving aspiring writers a chance to study the work that actually made it to screen.</p>
+    </div>
+
+    <div class="about-card fade-in">
+        <div class="about-card-icon">✍️</div>
+        <h2>Who We're For</h2>
+        <p>Whether you're an aspiring television writer, a student of the craft, or simply someone with a natural proclivity for reading teleplays — Episode One was built for you.</p>
+    </div>
+
+    <div class="about-card fade-in">
+        <div class="about-card-icon">🎬</div>
+        <h2>Our Mission</h2>
+        <p>We believe great television starts with great writing. Our mission is to make the blueprints of great TV accessible to the next generation of storytellers.</p>
+    </div>
+</div>
+
+<div class="fair-use-section fade-in">
+    <div class="fair-use-card" id="fair-use">
+        <h2>Fair Use Notice</h2>
+        <p>This site contains copyrighted material that may not have been specifically authorized by the copyright owner. We use the television pilot screenplays for educational purposes and provide a database for other aspiring television writers. We believe this constitutes fair use of any such copyrighted material as provided for in section 107 of the US Copyright Law.</p>
+    </div>
+</div>
+
+{% endblock content %}

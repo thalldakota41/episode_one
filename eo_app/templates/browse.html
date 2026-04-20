@@ -1,0 +1,52 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}Browse - Episode One{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/browse.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="browse-header fade-in">
+    <h1>Browse Pilots</h1>
+    <p>Discover TV pilot screenplays by genre or search by title and creator.</p>
+</div>
+
+<div class="browse-controls fade-in">
+    <div class="browse-search">
+        <input type="text" id="browse-search-input" placeholder="Search by title or creator..." autocomplete="off">
+    </div>
+    <div class="browse-genres">
+        <button class="genre-tag active" data-genre="">All</button>
+        {% for tag in tags %}
+            <button class="genre-tag" data-genre="{{ tag.genre }}">{{ tag.genre }}</button>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="browse-results-count fade-in">
+    <p id="results-count"></p>
+</div>
+
+<div class="browse-grid" id="browse-grid">
+    <!-- Shows loaded via AJAX -->
+</div>
+
+<div class="browse-loading" id="browse-loading">
+    <div class="browse-spinner"></div>
+</div>
+
+<div class="browse-end" id="browse-end">
+    <p>You've seen it all!</p>
+</div>
+
+<!-- Infinite scroll trigger -->
+<div id="scroll-trigger"></div>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'js/browse.js' %}"></script>
+{% endblock %}

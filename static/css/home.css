@@ -1,10 +1,4 @@
-
-/* section for banner sytling */
-
-/* Custom banner styles */
-/* Custom banner styles */
-/* Custom banner styles */
-/* Custom banner styles */
+/* Banner */
 .banner {
   position: relative;
   width: 100%;
@@ -57,36 +51,180 @@
   z-index: 0;
 }
 
+/* Featured Show */
+.featured-show {
+  background-color: #1f1f1f;
+  padding: 40px;
+}
 
+.featured-show-label {
+  font-size: 13px;
+  font-weight: bold;
+  color: #D4AF37;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
 
+.featured-show-content {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
 
+.featured-show-poster {
+  flex-shrink: 0;
+}
 
-/* ending of section for banner styling */
+.featured-show-poster img {
+  width: 220px;
+  height: 330px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s;
+}
 
-/* THIS IS THE START OF THE RECENTLY-ADDED-PILOTS SECTION*/
+.featured-show-poster img:hover {
+  transform: scale(1.03);
+}
+
+.featured-show-details {
+  flex: 1;
+  color: white;
+}
+
+.featured-show-details h2 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  border: none;
+  padding: 0;
+  display: block;
+}
+
+.featured-show-details h2 a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.featured-show-details h2 a:hover {
+  color: #D4AF37;
+}
+
+.featured-show-creators {
+  font-size: 15px;
+  color: #aaa;
+  margin-bottom: 15px;
+}
+
+.featured-show-creators a {
+  color: #D4AF37;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.featured-show-creators a:hover {
+  text-decoration: underline;
+}
+
+.featured-show-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.featured-tag {
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid #D4AF37;
+  color: #D4AF37;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.featured-show-overview {
+  font-size: 15px;
+  color: #ccc;
+  line-height: 1.7;
+  margin-bottom: 25px;
+  max-width: 600px;
+}
+
+.featured-show-actions {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.featured-show-btn {
+  padding: 12px 28px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  background-color: #D4AF37;
+  color: white;
+  border: 2px solid #D4AF37;
+}
+
+.featured-show-btn:hover {
+  background-color: #b8960c;
+  border-color: #b8960c;
+  transform: scale(1.03);
+  color: white;
+}
+
+.featured-show-btn-outline {
+  background-color: transparent;
+  color: #D4AF37;
+}
+
+.featured-show-btn-outline:hover {
+  background-color: #D4AF37;
+  color: white;
+}
+
+/* Recently Added Pilots */
 .rec-added-tv-shows {
   background-color: #D4AF37;
   overflow-x: auto;
+  overflow-y: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.rec-added-tv-shows::-webkit-scrollbar {
+  display: none;
 }
 
 .rec-added-tv-posters {
   display: flex;
   flex-wrap: nowrap;
   justify-content: flex-start;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.rec-added-tv-posters::-webkit-scrollbar {
+  display: none;
 }
 
 .rec-added-tv-poster {
   position: relative;
   margin: 10px;
-}
-
-.rec-added-tv-poster:last-child {
-  margin-right: 0;
+  flex-shrink: 0;
 }
 
 .rec-added-tv-poster img {
-  width: 300px;
-  height: 400px;
+  width: 200px;
+  height: 300px;
 }
 
 .rec-added-tv-details {
@@ -109,32 +247,28 @@
   opacity: 1;
 }
 
-
-.rec-added-tv-shows-header{
+.rec-added-tv-shows-header {
   font-size: 24px;
   font-weight: bold;
   text-decoration: underline;
   margin-left: 15px;
+  padding-top: 10px;
 }
 
 .rec-added-tv-details p {
   margin: 0;
-  padding: 10px;
-  font-size: 16px;
+  padding: 5px;
+  font-size: 14px;
 }
 
 .rec-added-tv-details h3,
 .rec-added-tv-details p {
   margin: 0;
-  padding: 10px;
+  padding: 5px;
 }
 
-.rec-added-tv-title{
-  font-size: 24px;
-}
-
-.rec-added-tv-details p {
-  font-size: 16px;
+.rec-added-tv-title {
+  font-size: 18px;
 }
 
 .rec-added-tv-details a {
@@ -145,6 +279,13 @@
 .rec-added-tv-details .creators-container {
   width: 100%;
   overflow-x: auto;
+  overflow-y: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.rec-added-tv-details .creators-container::-webkit-scrollbar {
+  display: none;
 }
 
 .rec-added-tv-details .creators {
@@ -153,280 +294,202 @@
   justify-content: center;
 }
 
-
 .rec-added-tv-details .creators a {
   white-space: nowrap;
-  margin: 5px;
+  margin: 3px;
 }
 
-/* THIS ENDS THE RECENTLY ADDED PILOTS SECTION */
+/* Staff Favorites */
+.staff-favorites {
+  padding: 20px;
+}
 
+.staff-favorites-header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-decoration: underline;
+}
 
-  /* THIS IS THE START OF THE STAFF FAVORITES SECTION */
+.staff-favorites-show-list {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 10px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 
-  .staff-favorites {
-    padding: 20px;
-  }
-  
-  .staff-favorites-header {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    text-decoration: underline;
-  }
-  
-  .staff-favorites-show-list {
-    display: flex;
-    overflow-x: auto;
-    padding-bottom: 10px;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0.1);
-  }
-  
-  .staff-favorites-show-item {
-    flex-shrink: 0;
-    margin-right: 10px;
-  }
-  
-  .staff-favorites-show-poster {
-    position: relative;
-    width: 200px;
-    overflow: hidden;
-    transition: transform 0.3s;
-  }
-  
-  .staff-favorites-poster {
-    width: 100%;
-    height: auto;
-    height: 250px;
-    transition: transform 0.3s;
-  }
-  
-  .staff-favorites-show-poster:hover {
-    transform: scale(1.05);
-  }
-  
-  .staff-favorites-poster-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(243, 230, 183, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 1;
-    transition: opacity 0.3s;
-  }
-  
-  .staff-favorites-show-poster:hover .staff-favorites-poster-overlay {
-    opacity: 0;
-  }
-  
-  .staff-favorites-poster-title {
-    font-size: 20px;
-    color: black;
-    font-weight: bold;
-    text-align: center;
-    margin: 0;
-  }
-  
-  /* Additional CSS for scrollbar customization */
-  .staff-favorites-show-list::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  .staff-favorites-show-list::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .staff-favorites-show-list::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-  
-  .staff-favorites-show-list::-webkit-scrollbar {
-    display: none;
-  }
+.staff-favorites-show-list::-webkit-scrollbar {
+  display: none;
+}
 
-  /* Style for the "More" link in the Staff Favorites section */
+.staff-favorites-show-item {
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+
+.staff-favorites-show-poster {
+  position: relative;
+  width: 150px;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.staff-favorites-poster {
+  width: 100%;
+  height: 200px;
+  transition: transform 0.3s;
+}
+
+.staff-favorites-show-poster:hover {
+  transform: scale(1.05);
+}
+
+.staff-favorites-poster-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(243, 230, 183, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.staff-favorites-show-poster:hover .staff-favorites-poster-overlay {
+  opacity: 0;
+}
+
+.staff-favorites-poster-title {
+  font-size: 16px;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  padding: 5px;
+}
+
 .more-link-staff-favorites {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 200px; /* Adjust the width to fit your design */
-  height: 250px; /* Adjust the height to match the posters */
-  background-color: #F3E6B7; /* Use the same background color as the posters */
-  border-radius: 10px; /* Match the border radius of the posters */
-  font-size: 20px;
+  width: 150px;
+  height: 200px;
+  background-color: #F3E6B7;
+  border-radius: 10px;
+  font-size: 18px;
   font-weight: bold;
   color: black;
   text-decoration: none;
   transition: transform 0.3s, background-color 0.3s;
+  flex-shrink: 0;
 }
 
-/* Hover effect for the "More" link in the Staff Favorites section */
 .more-link-staff-favorites:hover {
-  background-color: #D4AF37; /* Change the background color on hover */
-  transform: scale(1.05); /* Increase the size on hover for a subtle effect */
+  background-color: #D4AF37;
+  transform: scale(1.05);
 }
 
-/* Optional: Add some margin between the last poster and the "More" link in Staff Favorites */
-.staff-favorites-show-item:last-child {
-  margin-right: 20px;
+/* Influential Shows */
+.influential-shows {
+  padding: 20px;
 }
 
+.influential-shows-header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-decoration: underline;
+}
 
-  
+.influential-shows-show-list {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 10px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 
-/* THIS IS THE END OF STAFF FAVORITES SECTION */
+.influential-shows-show-list::-webkit-scrollbar {
+  display: none;
+}
 
+.influential-shows-show-item {
+  flex-shrink: 0;
+  margin-right: 10px;
+}
 
+.influential-shows-show-poster {
+  position: relative;
+  width: 150px;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
 
-/* THIS IS THE START OF THE MOST INFLUENTIAL SCRIPTS  */
+.influential-shows-poster {
+  width: 100%;
+  height: 200px;
+  transition: transform 0.3s;
+}
 
- .influential-shows {
-    padding: 20px;
-  }
-   
+.influential-shows-show-poster:hover {
+  transform: scale(1.05);
+}
 
-  .influential-shows-header {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    text-decoration: underline;
-  }
-  
-  .influential-shows-show-list {
-    display: flex;
-    overflow-x: auto;
-    padding-bottom: 10px;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0.1);
-  }
-  
-  .influential-shows-show-item {
-    flex-shrink: 0;
-    margin-right: 10px;
-  }
-  
-  .influential-shows-show-poster {
-    position: relative;
-    width: 200px;
-    overflow: hidden;
-    transition: transform 0.3s;
-  }
-  
-  .influential-shows-poster {
-    width: 100%;
-    height: auto;
-    height: 250px;
-    transition: transform 0.3s;
-  }
-  
-  .influential-shows-show-poster:hover {
-    transform: scale(1.05);
-  }
-  
-  .influential-shows-poster-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(243, 230, 183, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 1;
-    transition: opacity 0.3s;
-  }
-  
-  .influential-shows-show-poster:hover .influential-shows-poster-overlay {
-    opacity: 0;
-  }
-  
-  .influential-shows-poster-title {
-    font-size: 20px;
-    color: black;
-    font-weight: bold;
-    text-align: center;
-    margin: 0;
-  }
-  
-  /* Additional CSS for scrollbar customization */
-  .influential-shows-show-list::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  .influential-shows-show-list::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .influential-shows-show-list::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-  
-  .influential-shows-show-list::-webkit-scrollbar {
-    display: none;
-  }
+.influential-shows-poster-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(243, 230, 183, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
 
-  /* Style for the "More" link */
+.influential-shows-show-poster:hover .influential-shows-poster-overlay {
+  opacity: 0;
+}
+
+.influential-shows-poster-title {
+  font-size: 16px;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  padding: 5px;
+}
+
 .more-link {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 200px; /* Adjust the width to fit your design */
-  height: 250px; /* Adjust the height to match the posters */
-  background-color: #F3E6B7; /* Use the same background color as the posters */
-  border-radius: 10px; /* Match the border radius of the posters */
-  font-size: 20px;
+  width: 150px;
+  height: 200px;
+  background-color: #F3E6B7;
+  border-radius: 10px;
+  font-size: 18px;
   font-weight: bold;
   color: black;
   text-decoration: none;
   transition: transform 0.3s, background-color 0.3s;
+  flex-shrink: 0;
 }
 
-/* Hover effect for the "More" link */
 .more-link:hover {
-  background-color: #D4AF37; /* Change the background color on hover */
-  transform: scale(1.05); /* Increase the size on hover for a subtle effect */
+  background-color: #D4AF37;
+  transform: scale(1.05);
 }
 
-/* Optional: Add some margin between the last poster and the "More" link */
-.influential-shows-show-item:last-child {
-  margin-right: 20px;
-}
-
-
-  
-  /* THIS IS THE END OF INFLUENTIAL SHOWS SECTION */
-  
-
-
-
-
-
-
-
-
-
-
- /* THIS IS THE START OF THE FOOTER */
-
-
-
-
-
-
-  /* END OF FOOTER STYLING */
-
-  
-/* THIS IS THE START OF THE CREATOR OF THE MONTH SECTION */
-.creators-of-the-month {
-  padding: 20px;
-}
-
+/* Creator of the Month */
 .creator-of-the-month-header {
   font-size: 24px;
   font-weight: bold;
@@ -439,11 +502,18 @@
 .creator-of-the-month-list {
   display: flex;
   overflow-x: auto;
+  overflow-y: hidden;
   scroll-snap-type: x mandatory;
+  padding-bottom: 10px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.creator-of-the-month-list::-webkit-scrollbar {
+  display: none;
 }
 
 .individual-creator-of-the-month {
-  /* margin-right: 10px; */
   margin-left: 20px;
   flex-shrink: 0;
   display: flex;
@@ -451,16 +521,12 @@
   scroll-snap-align: start;
 }
 
-.individual-creator-of-the-month:last-child {
-  margin-right: 0;
-}
-
 .individual-creator-of-the-month-image {
-  width: 150px;
-  height: 270px;
+  width: 120px;
+  height: 220px;
   border-radius: 10px 0 0 10px;
   overflow: hidden;
-} 
+}
 
 .individual-creator-of-the-month-image img {
   width: 100%;
@@ -470,77 +536,224 @@
 }
 
 .individual-creator-of-the-month-details {
-  background-color: #F3E6B7; 
+  background-color: #F3E6B7;
   padding: 10px;
-  width: 300px;
-  height: 270px;
+  width: 220px;
+  height: 220px;
   border-radius: 0 10px 10px 0;
-  margin-left: -10px; 
-  align-content: left;
-} 
-
-
-
-
+  margin-left: -10px;
+  overflow: hidden;
+}
 
 .individual-creator-of-the-month-details h3 a {
   font-weight: bold;
   margin-bottom: 5px;
-  color: black; 
-  text-decoration: none; 
+  color: black;
+  text-decoration: none;
 }
 
 .individual-creator-of-the-month-details h3 a:hover {
-  text-decoration: underline; 
+  text-decoration: underline;
+}
+
+.individual-creator-of-the-month-details ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .individual-creator-of-the-month-details ul li {
   display: inline-block;
   margin-right: 5px;
-  text-align: right;
 }
 
 .individual-creator-of-the-month-details ul li img {
-  width: 150px;
-  height: 250px;
+  width: 50px;
+  height: auto;
+  max-height: 60px;
   object-fit: cover;
 }
 
 .individual-creator-of-the-month-details p {
   font-size: 14px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
-.individual-creator-of-the-month-image img {
+/* Creator placeholder */
+.creator-placeholder {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  background-color: #2a2a2a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px 0 0 10px;
 }
 
-.individual-creator-of-the-month .individual-creator-of-the-month-details {
-  width: 300px;
+.creator-placeholder-initials {
+  font-size: 13px;
+  color: #888;
+  letter-spacing: 1px;
 }
 
-.individual-creator-of-the-month .individual-creator-of-the-month-details ul li img {
-  width: 60px; 
-  height: auto;
-  max-height: 80px; 
+/* Mobile */
+@media (max-width: 768px) {
+  .banner h1 {
+    font-size: 28px;
+  }
+
+  .banner p {
+    font-size: 16px;
+  }
+
+  .featured-show {
+    padding: 25px 20px;
+  }
+
+  .featured-show-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .featured-show-poster img {
+    width: 160px;
+    height: 240px;
+  }
+
+  .featured-show-details h2 {
+    font-size: 24px;
+  }
+
+  .featured-show-overview {
+    font-size: 14px;
+  }
+
+  .rec-added-tv-poster img {
+    width: 140px;
+    height: 210px;
+  }
+
+  .rec-added-tv-title {
+    font-size: 14px;
+  }
+
+  .rec-added-tv-details p {
+    font-size: 12px;
+  }
+
+  .staff-favorites-show-poster {
+    width: 120px;
+  }
+
+  .staff-favorites-poster {
+    height: 170px;
+  }
+
+  .more-link-staff-favorites {
+    width: 120px;
+    height: 170px;
+    font-size: 15px;
+  }
+
+  .influential-shows-show-poster {
+    width: 120px;
+  }
+
+  .influential-shows-poster {
+    height: 170px;
+  }
+
+  .more-link {
+    width: 120px;
+    height: 170px;
+    font-size: 15px;
+  }
+
+  .individual-creator-of-the-month-image {
+    width: 90px;
+    height: 180px;
+  }
+
+  .individual-creator-of-the-month-details {
+    width: 180px;
+    height: 180px;
+  }
 }
 
-.individual-creator-of-the-month .individual-creator-of-the-month-details p {
-  font-size: 20px;
-  margin-top: 30px;
+@media (max-width: 480px) {
+  .banner h1 {
+    font-size: 22px;
+  }
+
+  .banner p {
+    font-size: 14px;
+  }
+
+  .featured-show {
+    padding: 20px 15px;
+  }
+
+  .featured-show-poster img {
+    width: 130px;
+    height: 195px;
+  }
+
+  .featured-show-details h2 {
+    font-size: 20px;
+  }
+
+  .featured-show-btn {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+
+  .rec-added-tv-poster img {
+    width: 120px;
+    height: 180px;
+  }
+
+  .staff-favorites-show-poster {
+    width: 100px;
+  }
+
+  .staff-favorites-poster {
+    height: 150px;
+  }
+
+  .more-link-staff-favorites {
+    width: 100px;
+    height: 150px;
+    font-size: 13px;
+  }
+
+  .influential-shows-show-poster {
+    width: 100px;
+  }
+
+  .influential-shows-poster {
+    height: 150px;
+  }
+
+  .more-link {
+    width: 100px;
+    height: 150px;
+    font-size: 13px;
+  }
+
+  .individual-creator-of-the-month-image {
+    width: 80px;
+    height: 160px;
+  }
+
+  .individual-creator-of-the-month-details {
+    width: 160px;
+    height: 160px;
+    padding: 8px;
+  }
+
+  .individual-creator-of-the-month-details ul li img {
+    width: 40px;
+    max-height: 50px;
+  }
 }
-
-
-/* THIS ENDS THE CREATOR OF THE MONTH SECTION */
-
-
-
-
-
-
-
-
-
-
-

@@ -1,37 +1,61 @@
-<!DOCTYPE html>
 {% extends 'main.html' %}
 {% load static %}
+
+{% block title %}Staff Favorites - Episode One{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/all_staff_favorites.css' %}">
+{% endblock %}
+
 {% block content %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/all_staff_favorites.css' %}">
-    <title>Staff Favorites</title>
-</head>
-<body>
 
-    <div class="title-container">
-        <h2 class="staff-favorites-header">Staff Favorites</h2>
-    </div>
+<div class="title-container">
+    <h2 class="staff-favorites-header">Staff Favorites</h2>
+</div>
 
-    <div class="search-results">
-        {% for staff_favorite in staff_favorites %}
-            <div class="search-result">
-                {% if staff_favorite.show.poster %}
-                    <img src="{{ staff_favorite.show.poster.url }}" alt="{{ staff_favorite.show.title }} Poster">
-                    <div class="poster-overlay">
-                        <div class="title"><a href="{% url 'show_page' staff_favorite.show.id %}">{{ staff_favorite.show.title }}</a></div>
-                        <div class="creators">
-                            {% for creator in staff_favorite.show.creators.all %}
-                                <a href="{% url 'creator' creator.id %}">{{ creator.name }}</a>{% if not forloop.last %}, {% endif %}
-                            {% endfor %}
-                        </div>
+<div class="search-results">
+    {% for staff_favorite in staff_favorites %}
+        <div class="search-result">
+            {% if staff_favorite.show.tmdb_poster_path %}
+                <img src="https://image.tmdb.org/t/p/w500/{{ staff_favorite.show.tmdb_poster_path }}" alt="{{ staff_favorite.show.title }} Poster" loading="lazy">
+                <div class="poster-overlay">
+                    <div class="title">
+                        <a href="{% url 'show_page' staff_favorite.show.id %}">{{ staff_favorite.show.title }}</a>
                     </div>
-                {% endif %}
-            </div>
-        {% endfor %}
-    </div>
-</body>
-</html>
+                    <div class="creators">
+                        {% for creator in staff_favorite.show.creators.all %}
+                            <a href="{% url 'creator' creator.id %}">{{ creator.name }}</a>{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% elif staff_favorite.show.poster %}
+                <img src="{{ staff_favorite.show.poster.url }}" alt="{{ staff_favorite.show.title }} Poster" loading="lazy">
+                <div class="poster-overlay">
+                    <div class="title">
+                        <a href="{% url 'show_page' staff_favorite.show.id %}">{{ staff_favorite.show.title }}</a>
+                    </div>
+                    <div class="creators">
+                        {% for creator in staff_favorite.show.creators.all %}
+                            <a href="{% url 'creator' creator.id %}">{{ creator.name }}</a>{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="poster-overlay">
+                    <div class="title">
+                        <a href="{% url 'show_page' staff_favorite.show.id %}">{{ staff_favorite.show.title }}</a>
+                    </div>
+                    <div class="creators">
+                        {% for creator in staff_favorite.show.creators.all %}
+                            <a href="{% url 'creator' creator.id %}">{{ creator.name }}</a>{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No staff favorites yet.</p>
+    {% endfor %}
+</div>
+
 {% endblock content %}

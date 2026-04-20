@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="pilot database" content="This is a website for TV pilot screenplay download">
+    <meta name="description" content="This is a website for TV pilot screenplay download">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keyword" content="script, screenplay, TV, pilot, writer, creator">
-    <title>Episode One</title>
+    <meta name="keywords" content="script, screenplay, TV, pilot, writer, creator">
+    <title>{% block title %}Episode One{% endblock %}</title>
 
     {% load static %}
 
@@ -13,11 +13,12 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/ui-lightness/jquery-ui.css">
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
 
@@ -33,16 +34,16 @@
         <input class="form-control mr-sm-2" type="text" name="search" id="search" placeholder="Search by title, creator, or genre" autocomplete="off">
         <div id="search-results"></div>
     </form>
-    
 
     <div class="hyper-link">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <!-- Add News link before Mission link -->
+                <li data-tooltip="Browse" class="nav-item active">
+                    <a class="nav-link" id="browse" href="{% url 'browse' %}"><strong>Browse</strong></a>
+                </li>
                 <li data-tooltip="News" class="nav-item active">
                     <a class="nav-link" id="news" href="{% url 'news' %}"><strong>News</strong></a>
                 </li>
-                <!-- Add Reviews link before Comment link -->
                 <li data-tooltip="Reviews" class="nav-item active">
                     <a class="nav-link" id="reviews" href="{% url 'reviews' %}"><strong>Articles</strong></a>
                 </li>
@@ -66,38 +67,38 @@
 
 <main>
     {% block content %}
-  
     {% endblock content %}
 </main>
 
+<!-- Back to top button -->
+<button id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
+
 <footer class="site-footer">
     <div class="footer-content">
-        <!-- Your footer content goes here -->
         <div class="footer-logo">
-            <!-- Your logo image or text here -->
         </div>
-    
+
         <div class="footer-links">
             <ul>
+                <li><a href="{% url 'browse' %}">Browse</a></li>
                 <li><a href="{% url 'about' %}">About</a></li>
                 <li><a href="{% url 'about' %}#fair-use">Legal</a></li>
                 <li><a href="{% url 'comment' %}">Comment</a></li>
                 <li><a href="{% url 'news' %}">News</a></li>
                 <li><a href="{% url 'reviews' %}">Articles</a></li>
-                <!-- Add more social media links or other links as needed -->
             </ul>
         </div>
-    
+
         <div class="attribution-title clearfix">
             <img src="{% static 'images/TMDB.svg' %}" alt="TMDB Logo" class="tmdb-logo">
             <p>This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
         </div>
-    
+
     </div>
 </footer>
 
 <script src="{% static 'js/main_template.js' %}"></script>
-
+{% block extra_js %}{% endblock %}
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
 </body>
