@@ -1,8 +1,12 @@
+/* Import premium fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Source+Sans+3:wght@300;400;600&display=swap');
+
 /* Hero */
 .about-hero {
-    background-color: #D4AF37;
-    padding: 80px 40px;
+    background-color: #1a1a1a;
+    padding: 80px 40px 70px 40px;
     text-align: center;
+    border-bottom: 1px solid #D4AF37;
 }
 
 .about-hero-content {
@@ -10,93 +14,169 @@
     margin: 0 auto;
 }
 
+.about-hero-label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #D4AF37;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    display: block;
+    margin-bottom: 20px;
+}
+
 .about-hero h1 {
-    font-size: 52px;
-    font-weight: 700;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 60px;
+    font-weight: 300;
     color: white;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    line-height: 1.1;
 }
 
 .about-hero h1 span {
-    color: #1f1f1f;
+    color: #D4AF37;
+    font-style: italic;
 }
 
 .about-tagline {
-    font-size: 20px;
-    color: white;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 15px;
+    color: #888;
     margin: 0;
-    line-height: 1.6;
-    opacity: 0.9;
+    line-height: 1.7;
+    font-weight: 300;
+    letter-spacing: 0.5px;
 }
 
 /* Cards section */
 .about-section {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
-    padding: 60px 40px;
-    background-color: #f9f9f9;
+    gap: 0;
+    padding: 0;
+    background-color: #fafafa;
 }
 
 .about-card {
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
     background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    padding: 40px 30px;
-    width: 100%;
-    max-width: 300px;
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
+    padding: 50px 40px;
+    border-right: 1px solid #e4e4e4;
+    border-bottom: 1px solid #e4e4e4;
+    transition: background-color 0.3s;
+}
+
+.about-card:last-child {
+    border-right: none;
 }
 
 .about-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    background-color: #fafafa;
 }
 
-.about-card-icon {
-    font-size: 48px;
-    margin-bottom: 20px;
+.about-card-label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #D4AF37;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    display: block;
+    margin-bottom: 15px;
 }
 
 .about-card h2 {
-    font-size: 22px;
-    font-weight: bold;
-    color: #1f1f1f;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #1a1a1a;
     margin-bottom: 15px;
     border: none;
     padding: 0;
     display: block;
+    line-height: 1.2;
 }
 
 .about-card p {
-    font-size: 15px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
     color: #777;
-    line-height: 1.7;
+    line-height: 1.8;
     margin: 0;
+    font-weight: 300;
+}
+
+/* Stats section */
+.about-stat-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1a1a1a;
+    padding: 70px 40px;
+    border-top: 1px solid #D4AF37;
+    border-bottom: 1px solid #D4AF37;
+    gap: 0;
+}
+
+.about-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    max-width: 250px;
+}
+
+.about-stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 56px;
+    font-weight: 300;
+    color: white;
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-bottom: 12px;
+}
+
+.about-stat-label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #D4AF37;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.about-stat-divider {
+    width: 1px;
+    height: 80px;
+    background-color: #333;
+    flex-shrink: 0;
 }
 
 /* Fair use section */
 .fair-use-section {
-    padding: 40px;
-    background-color: #f9f9f9;
+    padding: 60px 40px;
+    background-color: #fafafa;
 }
 
 .fair-use-card {
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    padding: 40px;
-    max-width: 800px;
+    max-width: 700px;
     margin: 0 auto;
-    border-left: 4px solid #D4AF37;
+    padding: 50px;
+    background-color: white;
+    border-left: 3px solid #D4AF37;
+    border-bottom: 1px solid #e4e4e4;
+    border-top: 1px solid #e4e4e4;
+    border-right: 1px solid #e4e4e4;
 }
 
 .fair-use-card h2 {
-    font-size: 22px;
-    font-weight: bold;
-    color: #1f1f1f;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #1a1a1a;
     margin-bottom: 15px;
     border: none;
     padding: 0;
@@ -104,75 +184,73 @@
 }
 
 .fair-use-card p {
-    font-size: 15px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
     color: #777;
-    line-height: 1.7;
+    line-height: 1.8;
     margin: 0;
+    font-weight: 300;
 }
 
 /* Mobile */
 @media (max-width: 768px) {
     .about-hero {
-        padding: 50px 20px;
+        padding: 50px 20px 40px 20px;
     }
 
     .about-hero h1 {
-        font-size: 36px;
-    }
-
-    .about-tagline {
-        font-size: 16px;
-    }
-
-    .about-section {
-        padding: 40px 20px;
-        gap: 20px;
+        font-size: 40px;
     }
 
     .about-card {
+        flex: 0 0 100%;
         max-width: 100%;
-        padding: 30px 20px;
+        border-right: none;
+        padding: 35px 25px;
+    }
+
+    .about-stat-section {
+        padding: 50px 20px;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .about-stat-divider {
+        width: 80px;
+        height: 1px;
+    }
+
+    .about-stat-number {
+        font-size: 44px;
     }
 
     .fair-use-section {
-        padding: 20px;
+        padding: 35px 20px;
     }
 
     .fair-use-card {
-        padding: 25px;
+        padding: 30px 25px;
     }
 }
 
 @media (max-width: 480px) {
-    .about-hero {
-        padding: 40px 15px;
-    }
-
     .about-hero h1 {
-        font-size: 28px;
+        font-size: 32px;
     }
 
     .about-tagline {
         font-size: 14px;
     }
 
-    .about-card-icon {
+    .about-card h2 {
+        font-size: 24px;
+    }
+
+    .about-stat-number {
         font-size: 36px;
     }
 
-    .about-card h2 {
-        font-size: 18px;
-    }
-
-    .about-card p {
-        font-size: 14px;
-    }
-
     .fair-use-card h2 {
-        font-size: 18px;
-    }
-
-    .fair-use-card p {
-        font-size: 14px;
+        font-size: 22px;
     }
 }

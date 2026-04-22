@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Creator, Tag, Show, Comment, StaffFavorite, CreatorOfTheMonth, InfluentialShow, FeaturedShow
+from .models import Creator, Tag, Show, Comment, StaffFavorite, CreatorOfTheMonth, InfluentialShow, FeaturedShow, Article
 
 @admin.register(Creator)
 class CreatorAdmin(admin.ModelAdmin):
@@ -42,3 +42,11 @@ class CommentAdmin(admin.ModelAdmin):
 class FeaturedShowAdmin(admin.ModelAdmin):
     list_display = ['show', 'featured_date', 'is_active']
     search_fields = ['show__title']
+
+@admin.register(Article)
+class ArticleAdmin(admin.ModelAdmin):
+    list_display = ['title', 'author', 'category', 'status', 'published_at']
+    list_filter = ['status', 'category']
+    search_fields = ['title', 'body']
+    prepopulated_fields = {'slug': ('title',)}
+    readonly_fields = ['created', 'updated_at']

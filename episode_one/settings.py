@@ -98,6 +98,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
+
 from cdn.conf import * # noqa
 from cdn.backends import MediaRootS3Boto3Storage
 

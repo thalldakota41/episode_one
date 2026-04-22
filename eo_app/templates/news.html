@@ -1,34 +1,46 @@
-<!DOCTYPE html>
 {% extends 'main.html' %}
 {% load static %}
+
+{% block title %}News - Episode One{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/news.css' %}">
+{% endblock %}
+
 {% block content %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon - Your Website Name</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            /* padding: 50px; */
-        }
 
-        h1 {
-            font-size: 36px;
-            font-weight: bold;
-            text-decoration: underline;
-            margin-bottom: 20px;
-        }
+<div class="news-header fade-in">
+    <h1>Industry News</h1>
+    <p>The latest from the world of television writing — sourced from Deadline, The Hollywood Reporter, Variety, and TVLine.</p>
+</div>
 
-        p {
-            font-size: 20px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Coming Soon</h1>
-    <p>This page is currently under construction. Please check back later for updates.</p>
-</body>
-</html>
+<div class="news-grid">
+    {% for article in articles %}
+        <a href="{{ article.link }}" target="_blank" rel="noopener noreferrer" class="news-card pop-in">
+            <div class="news-card-image">
+                {% if article.image %}
+                    <img src="{{ article.image }}" alt="{{ article.title }}" loading="lazy">
+                {% else %}
+                    <div class="news-card-no-image">
+                        <p>{{ article.source }}</p>
+                    </div>
+                {% endif %}
+                <div class="news-card-source">{{ article.source }}</div>
+            </div>
+            <div class="news-card-content">
+                <h2 class="news-card-title">{{ article.title }}</h2>
+                <p class="news-card-summary">{{ article.summary|striptags|truncatewords:25 }}</p>
+                <div class="news-card-footer">
+                    <span class="news-card-date">{{ article.published|truncatewords:4 }}</span>
+                    <span class="news-card-read">Read More →</span>
+                </div>
+            </div>
+        </a>
+    {% empty %}
+        <div class="news-empty">
+            <p>Unable to load news at this time. Please check back later.</p>
+        </div>
+    {% endfor %}
+</div>
+
 {% endblock content %}

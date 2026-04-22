@@ -1,64 +1,145 @@
 (function() {
 
-    // Search autocomplete
-    const searchInput = $('#search');
-    const searchResultsContainer = $('#search-results');
+    const searchInput = document.getElementById('search');
+    const searchForm = document.getElementById('search-form');
+    const searchResults = document.getElementById('search-results');
 
-    searchInput.autocomplete({
-        source: function(request, response) {
-            const searchQuery = request.term.trim();
+    if (!searchInput) return;
 
-            if (searchQuery === '') {
-                searchResultsContainer.empty();
-                return;
-            }
+    let debounceTimer = null;
+    let currentResults = [];
+    let selectedIndex = -1;
 
-            $.ajax({
-                url: '/search/',
-                method: 'GET',
-                data: { search: searchQuery },
-                success: function(data) {
-                    if (data.results.length > 0) {
-                        const formattedResults = data.results.slice(0, 5).map(function(show) {
-                            return {
-                                label: show.title,
-                                value: show.title,
-                                poster: show.poster
-                            };
-                        });
-                        response(formattedResults);
-                    } else {
-                        response([]);
-                    }
-                },
-                error: function(error) {
-                    console.error('Error:', error);
-                    response([]);
-                }
-            });
-        },
+    // Listen for input
+    searchInput.addEventListener('input', function() {
+        const query = this.value.trim();
+        clearTimeout(debounceTimer);
 
-        create: function() {
-            $(this).data('ui-autocomplete')._renderItem = function(ul, item) {
-                const showHtml = `
-                    <div class="show-result">
-                        <img src="${item.poster}" alt="${item.label} Poster">
-                        <h3>${item.label}</h3>
-                    </div>
-                `;
-                return $('<li>').append(showHtml).appendTo(ul);
-            };
-        },
+        if (query.length === 0) {
+            closeDropdown();
+            return;
+        }
 
-        minLength: 0
+        debounceTimer = setTimeout(function() {
+            fetchResults(query);
+        }, 150);
     });
 
-    $('#search').keydown(function(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            $('#search-form').submit();
+    // Keyboard navigation
+    searchInput.addEventListener('keydown', function(e) {
+        if (!searchResults.classList.contains('active')) return;
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            selectedIndex = Math.min(selectedIndex + 1, currentResults.length - 1);
+            updateHighlight();
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            selectedIndex = Math.max(selectedIndex - 1, -1);
+            updateHighlight();
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (selectedIndex >= 0 && currentResults[selectedIndex]) {
+                navigateToShow(currentResults[selectedIndex]);
+            } else {
+                searchForm.submit();
+            }
+        } else if (e.key === 'Escape') {
+            closeDropdown();
+            searchInput.blur();
         }
     });
+
+    // Close on outside click
+    document.addEventListener('click', function(e) {
+        if (!searchForm.contains(e.target)) {
+            closeDropdown();
+        }
+    });
+
+    function fetchResults(query) {
+        fetch(`/search/?search=${encodeURIComponent(query)}`, {
+            headers: { 'x-requested-with': 'XMLHttpRequest' }
+        })
+        .then(r => r.json())
+        .then(data => {
+            currentResults = data.results.slice(0, 6);
+            selectedIndex = -1;
+            renderDropdown(currentResults, query);
+        })
+        .catch(() => closeDropdown());
+    }
+
+    function renderDropdown(results, query) {
+        searchResults.innerHTML = '';
+
+        if (results.length === 0) {
+            searchResults.innerHTML = `
+                <div class="search-no-results">
+                    No pilots found for <em>"${query}"</em>
+                </div>
+            `;
+            searchResults.classList.add('active');
+            return;
+        }
+
+        results.forEach(function(show, index) {
+            const item = document.createElement('a');
+            item.href = `/show_page/${show.id}/`;
+            item.className = 'search-result-item';
+            item.dataset.index = index;
+
+            item.innerHTML = `
+                <div class="search-result-poster">
+                    ${show.poster
+                        ? `<img src="${show.poster}" alt="${show.title}">`
+                        : `<div class="search-result-no-poster"></div>`
+                    }
+                </div>
+                <div class="search-result-info">
+                    <span class="search-result-title">${show.title}</span>
+                    ${show.creators && show.creators.length > 0
+                        ? `<span class="search-result-creator">${show.creators.map(c => c.name).join(', ')}</span>`
+                        : ''
+                    }
+                </div>
+                <div class="search-result-arrow">→</div>
+            `;
+
+            item.addEventListener('mouseenter', function() {
+                selectedIndex = index;
+                updateHighlight();
+            });
+
+            searchResults.appendChild(item);
+        });
+
+        // View all results footer
+        const footer = document.createElement('div');
+        footer.className = 'search-results-footer';
+        footer.innerHTML = `<span>Press Enter to see all results for "<strong>${query}</strong>"</span>`;
+        searchResults.appendChild(footer);
+
+        searchResults.classList.add('active');
+    }
+
+    function updateHighlight() {
+        const items = searchResults.querySelectorAll('.search-result-item');
+        items.forEach(function(item, i) {
+            item.classList.toggle('highlighted', i === selectedIndex);
+        });
+    }
+
+    function navigateToShow(show) {
+        window.location.href = `/show_page/${show.id}/`;
+    }
+
+    function closeDropdown() {
+        searchResults.innerHTML = '';
+        searchResults.classList.remove('active');
+        selectedIndex = -1;
+        currentResults = [];
+    }
 
 })();
 

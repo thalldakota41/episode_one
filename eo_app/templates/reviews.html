@@ -1,34 +1,53 @@
-<!DOCTYPE html>
 {% extends 'main.html' %}
 {% load static %}
+
+{% block title %}Articles - Episode One{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/reviews.css' %}">
+{% endblock %}
+
 {% block content %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon - Your Website Name</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            /* padding: 50px; */
-        }
 
-        h1 {
-            font-size: 36px;
-            font-weight: bold;
-            text-decoration: underline;
-            margin-bottom: 20px;
-        }
+<div class="reviews-header fade-in">
+    <h1>Articles</h1>
+    <p>In-depth pieces on television writing, show creators, and the craft behind the pilots in our database.</p>
+</div>
 
-        p {
-            font-size: 20px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Coming Soon</h1>
-    <p>This page is currently under construction. Please check back later for updates.</p>
-</body>
-</html>
+{% if articles %}
+<div class="reviews-grid">
+    {% for article in articles %}
+        <a href="{% url 'article_detail' article.slug %}" class="reviews-card pop-in">
+            <div class="reviews-card-image">
+                {% if article.cover_image %}
+                    <img src="{{ article.cover_image.url }}" alt="{{ article.title }}" loading="lazy">
+                {% else %}
+                    <div class="reviews-card-no-image">
+                        <p>Episode One</p>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="reviews-card-content">
+                <span class="reviews-card-category">{{ article.get_category_display }}</span>
+                <h2 class="reviews-card-title">{{ article.title }}</h2>
+                <p class="reviews-card-summary">{{ article.body|striptags|truncatewords:30 }}</p>
+                <div class="reviews-card-footer">
+                    <span class="reviews-card-author">{{ article.author }}</span>
+                    <span class="reviews-card-date">{{ article.published_at|date:"M d, Y" }} · {{ article.reading_time }} min read</span>
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+</div>
+
+{% else %}
+<div class="reviews-coming-soon fade-in">
+    <div class="reviews-coming-soon-card">
+        <h2>Articles Coming Soon</h2>
+        <p>We're working on in-depth pieces about television writers, show creators, and the craft of writing a pilot. Check back soon.</p>
+        <a href="{% url 'browse' %}" class="reviews-coming-soon-btn">Browse Pilots</a>
+    </div>
+</div>
+{% endif %}
+
 {% endblock content %}

@@ -9,13 +9,16 @@
 
 {% block content %}
 
+<div class="comment-hero fade-in">
+    <div class="comment-hero-content">
+        <span class="comment-hero-label">Get In Touch</span>
+        <h1>Contact Us</h1>
+        <p>We'd love to hear from you. Whether it's feedback, a suggestion, or just a hello — drop us a note.</p>
+    </div>
+</div>
+
 <div class="comment-page fade-in">
     <div class="comment-card">
-        <div class="comment-header">
-            <h1>Got thoughts?</h1>
-            <p>We'd love to hear from you. Whether it's feedback, a suggestion, or just a hello — drop us a note.</p>
-        </div>
-
         <form action="{% url 'comment_submit' %}" method="POST">
             {% csrf_token %}
 

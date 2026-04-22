@@ -1,0 +1,99 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}{{ article.title }} - Episode One{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/reviews.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="article-hero fade-in">
+    {% if article.cover_image %}
+        <img src="{{ article.cover_image.url }}" alt="{{ article.title }}" class="article-hero-image" loading="lazy">
+        <div class="article-hero-overlay"></div>
+    {% endif %}
+    <div class="article-hero-content">
+        <span class="article-category">{{ article.get_category_display }}</span>
+        <h1>{{ article.title }}</h1>
+        <div class="article-meta">
+            <span class="article-author">{{ article.author }}</span>
+            <span class="article-dot">·</span>
+            <span class="article-date">{{ article.published_at|date:"F d, Y" }}</span>
+            <span class="article-dot">·</span>
+            <span class="article-reading-time">{{ article.reading_time }} min read</span>
+        </div>
+    </div>
+</div>
+
+<div class="article-body-container fade-in">
+    <div class="article-body">
+        {{ article.body|linebreaks }}
+    </div>
+
+    <div class="share-bar article-share">
+        <span class="share-label">Share:</span>
+        <a class="share-btn share-twitter"
+           href="https://twitter.com/intent/tweet?text={{ article.title }} — Episode One&url={{ request.build_absolute_uri }}"
+           target="_blank"
+           rel="noopener noreferrer">
+            𝕏
+        </a>
+        <a class="share-btn share-facebook"
+           href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"
+           target="_blank"
+           rel="noopener noreferrer">
+            f
+        </a>
+        <button class="share-btn share-instagram" onclick="copyLink('{{ request.build_absolute_uri }}')">
+            Copy Link
+        </button>
+    </div>
+</div>
+
+{% if related_articles %}
+<div class="related-articles fade-in">
+    <h2 class="related-articles-header">More Articles</h2>
+    <div class="reviews-grid">
+        {% for related in related_articles %}
+            <a href="{% url 'article_detail' related.slug %}" class="reviews-card pop-in">
+                <div class="reviews-card-image">
+                    {% if related.cover_image %}
+                        <img src="{{ related.cover_image.url }}" alt="{{ related.title }}" loading="lazy">
+                    {% else %}
+                        <div class="reviews-card-no-image">
+                            <p>Episode One</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="reviews-card-content">
+                    <span class="reviews-card-category">{{ related.get_category_display }}</span>
+                    <h2 class="reviews-card-title">{{ related.title }}</h2>
+                    <p class="reviews-card-summary">{{ related.body|striptags|truncatewords:20 }}</p>
+                    <div class="reviews-card-footer">
+                        <span class="reviews-card-author">{{ related.author }}</span>
+                        <span class="reviews-card-date">{{ related.published_at|date:"M d, Y" }} · {{ related.reading_time }} min read</span>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+function copyLink(url) {
+    navigator.clipboard.writeText(url).then(function() {
+        const btn = document.querySelector('.share-instagram');
+        btn.textContent = 'Copied!';
+        setTimeout(function() {
+            btn.textContent = 'Copy Link';
+        }, 2000);
+    });
+}
+</script>
+{% endblock %}

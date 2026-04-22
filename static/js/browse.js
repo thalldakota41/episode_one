@@ -23,7 +23,8 @@
             document.querySelectorAll('.genre-tag').forEach(t => t.classList.remove('active'));
             this.classList.add('active');
             currentGenre = this.dataset.genre;
-            currentSearch = searchInput.value.trim();
+            currentSearch = '';
+            searchInput.value = '';
             resetAndLoad();
         });
     });
@@ -33,6 +34,10 @@
         clearTimeout(searchTimer);
         searchTimer = setTimeout(function() {
             currentSearch = searchInput.value.trim();
+            // Reset active genre tag to All when searching
+            document.querySelectorAll('.genre-tag').forEach(t => t.classList.remove('active'));
+            document.querySelector('.genre-tag[data-genre=""]').classList.add('active');
+            currentGenre = '';
             resetAndLoad();
         }, 300);
     });

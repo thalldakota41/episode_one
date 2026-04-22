@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/ui-lightness/jquery-ui.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -22,7 +24,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar" id="nav-bar">
+<nav class="navbar navbar-expand-lg" id="nav-bar">
     <a class="navbar-brand" href="{% url 'index' %}">
         <img src="{% static 'images/EO.png' %}" alt="Episode One" id="icon">
     </a>
@@ -31,38 +33,31 @@
     </button>
 
     <form id="search-form" action="{% url 'search' %}" method="GET">
-        <input class="form-control mr-sm-2" type="text" name="search" id="search" placeholder="Search by title, creator, or genre" autocomplete="off">
+        <input type="text" name="search" id="search" placeholder="Search pilots, creators, genres..." autocomplete="off">
         <div id="search-results"></div>
     </form>
 
-    <div class="hyper-link">
+    <div class="nav-links">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li data-tooltip="Browse" class="nav-item active">
-                    <a class="nav-link" id="browse" href="{% url 'browse' %}"><strong>Browse</strong></a>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'browse' %}">Browse</a>
                 </li>
-                <li data-tooltip="News" class="nav-item active">
-                    <a class="nav-link" id="news" href="{% url 'news' %}"><strong>News</strong></a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'news' %}">News</a>
                 </li>
-                <li data-tooltip="Reviews" class="nav-item active">
-                    <a class="nav-link" id="reviews" href="{% url 'reviews' %}"><strong>Articles</strong></a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'reviews' %}">Articles</a>
                 </li>
-                <li data-tooltip="Our Mission" class="nav-item active">
-                    <a class="nav-link" id="about" href="{% url 'about' %}"><strong>Mission</strong></a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">Mission</a>
+                </li>
+                <li class="nav-item nav-contact">
+                    <a class="nav-link" href="{% url 'comment' %}">Contact</a>
                 </li>
             </ul>
         </div>
     </div>
-    <div class="hyper-link">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" id="comment" href="{% url 'comment' %}"><strong>Comment</strong></a>
-                </li>
-            </ul>
-        </div>
-    </div>
-
 </nav>
 
 <main>
@@ -74,26 +69,39 @@
 <button id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
 
 <footer class="site-footer">
-    <div class="footer-content">
-        <div class="footer-logo">
+    <div class="footer-top">
+        <div class="footer-brand">
+            <div class="footer-brand-name">Episode One</div>
+            <p class="footer-tagline">A home for TV pilot screenplays and the writers behind them.</p>
         </div>
 
-        <div class="footer-links">
-            <ul>
-                <li><a href="{% url 'browse' %}">Browse</a></li>
-                <li><a href="{% url 'about' %}">About</a></li>
-                <li><a href="{% url 'about' %}#fair-use">Legal</a></li>
-                <li><a href="{% url 'comment' %}">Comment</a></li>
-                <li><a href="{% url 'news' %}">News</a></li>
-                <li><a href="{% url 'reviews' %}">Articles</a></li>
-            </ul>
+        <div class="footer-nav">
+            <div class="footer-nav-column">
+                <span class="footer-nav-header">Explore</span>
+                <ul>
+                    <li><a href="{% url 'browse' %}">Browse Pilots</a></li>
+                    <li><a href="{% url 'news' %}">News</a></li>
+                    <li><a href="{% url 'reviews' %}">Articles</a></li>
+                </ul>
+            </div>
+            <div class="footer-nav-column">
+                <span class="footer-nav-header">Company</span>
+                <ul>
+                    <li><a href="{% url 'about' %}">Our Mission</a></li>
+                    <li><a href="{% url 'about' %}#fair-use">Legal</a></li>
+                    <li><a href="{% url 'comment' %}">Contact</a></li>
+                </ul>
+            </div>
         </div>
 
-        <div class="attribution-title clearfix">
-            <img src="{% static 'images/TMDB.svg' %}" alt="TMDB Logo" class="tmdb-logo">
-            <p>This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+        <div class="footer-attribution">
+            <img src="{% static 'images/TMDB.svg' %}" alt="TMDB Logo" class="footer-tmdb-logo">
+            <p class="footer-attribution-text">This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
         </div>
+    </div>
 
+    <div class="footer-bottom">
+        <p>© 2026 Episode One. All rights reserved.</p>
     </div>
 </footer>
 

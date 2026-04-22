@@ -2,15 +2,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 import requests
 import threading
-from .models import Creator, Tag, Show, Comment, StaffFavorite, CreatorOfTheMonth, InfluentialShow, FeaturedShow
+from .models import Creator, Tag, Show, Comment, StaffFavorite, CreatorOfTheMonth, InfluentialShow, FeaturedShow, Article
 from django.db.models import Count, Q, F, Max, ExpressionWrapper
 from django.core.paginator import Paginator
-from django.views.decorators.cache import cache_page
 from django.conf import settings
 from django.urls import reverse
 from datetime import datetime, timedelta
 from .forms import CommentForm
 from django.core.mail import send_mail
+from django.core.cache import cache
+import feedparser
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import random
 import os
 
@@ -120,10 +122,14 @@ def index(request):
         ).distinct().prefetch_related('creators', 'tags')
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        results = [
-            {'title': show.title, 'poster': show.poster.url if show.poster else None}
-            for show in shows
-        ]
+        results = []
+        for show in shows[:6]:
+            results.append({
+                'id': show.id,
+                'title': show.title,
+                'poster': f"https://image.tmdb.org/t/p/w500/{show.tmdb_poster_path}" if show.tmdb_poster_path else None,
+                'creators': [{'id': c.id, 'name': c.name} for c in show.creators.all()],
+            })
         return JsonResponse({'results': results})
 
     staff_favorites = _get_staff_favorites()
@@ -154,10 +160,14 @@ def search(request):
     shows = shows.prefetch_related('creators', 'tags')
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        results = [
-            {'title': show.title, 'poster': show.poster.url if show.poster else None}
-            for show in shows
-        ]
+        results = []
+        for show in shows[:6]:
+            results.append({
+                'id': show.id,
+                'title': show.title,
+                'poster': f"https://image.tmdb.org/t/p/w500/{show.tmdb_poster_path}" if show.tmdb_poster_path else None,
+                'creators': [{'id': c.id, 'name': c.name} for c in show.creators.all()],
+            })
         return JsonResponse({'results': results})
 
     paginate_by = 15
@@ -353,12 +363,132 @@ def thankyou(request):
     return render(request, 'thankyou.html')
 
 
+def _get_feed_image(entry):
+    # Try media content
+    if hasattr(entry, 'media_content') and entry.media_content:
+        return entry.media_content[0].get('url', '')
+    # Try media thumbnail
+    if hasattr(entry, 'media_thumbnail') and entry.media_thumbnail:
+        return entry.media_thumbnail[0].get('url', '')
+    # Try enclosures
+    if hasattr(entry, 'enclosures') and entry.enclosures:
+        for enclosure in entry.enclosures:
+            if 'image' in enclosure.get('type', ''):
+                return enclosure.get('url', '')
+    # Try extracting image from content HTML
+    content = ''
+    if hasattr(entry, 'content') and entry.content:
+        content = entry.content[0].get('value', '')
+    elif hasattr(entry, 'summary'):
+        content = entry.summary or ''
+    if content:
+        import re
+        match = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', content)
+        if match:
+            url = match.group(1)
+            if url.startswith('http'):
+                return url
+    return None
+
+
+def _is_scripted_tv(entry):
+    SCRIPTED_KEYWORDS = [
+        'drama', 'comedy', 'series', 'pilot', 'showrunner', 'writer',
+        'screenplay', 'teleplay', 'scripted', 'limited series', 'miniseries',
+        'network', 'streaming', 'netflix', 'hbo', 'hulu', 'amazon',
+        'apple tv', 'peacock', 'paramount+', 'fx', 'amc', 'abc', 'nbc',
+        'cbs', 'wga', 'writers guild', 'episode', 'season', 'renewed',
+        'cancelled', 'canceled', 'premiere', 'finale', 'showtime',
+        'anthology', 'cable drama', 'prestige tv', 'creator', 'developed by',
+    ]
+
+    REALITY_KEYWORDS = [
+        'reality', 'bachelor', 'bachelorette', 'survivor', 'big brother',
+        'real housewives', 'dancing with the stars', 'american idol',
+        'the voice', 'talent show', 'competition show', 'dating show',
+        'game show', 'unscripted', 'kardashian', 'jersey shore',
+        'love island', 'top chef', 'project runway', 'drag race',
+        'amazing race', 'bachelor in paradise', 'below deck',
+        'vanderpump', 'bravo', 'mtv reality',
+    ]
+
+    text = (
+        entry.get('title', '') + ' ' +
+        entry.get('summary', '')
+    ).lower()
+
+    if any(keyword in text for keyword in REALITY_KEYWORDS):
+        return False
+
+    return any(keyword in text for keyword in SCRIPTED_KEYWORDS)
+
+
+def _fetch_feed(feed):
+    try:
+        parsed = feedparser.parse(feed['url'])
+        articles = []
+        for entry in parsed.entries[:10]:
+            if _is_scripted_tv(entry):
+                articles.append({
+                    'title': entry.get('title', ''),
+                    'link': entry.get('link', ''),
+                    'summary': entry.get('summary', ''),
+                    'source': feed['source'],
+                    'published': entry.get('published', ''),
+                    'image': _get_feed_image(entry),
+                })
+        return articles
+    except Exception as e:
+        print(f"Feed error for {feed['source']}: {e}")
+        return []
+
+
 def news(request):
-    return render(request, 'news.html')
+    cached_articles = cache.get('news_articles')
+    if cached_articles:
+        return render(request, 'news.html', {'articles': cached_articles})
+
+    feeds = [
+        {'source': 'TVLine', 'url': 'https://tvline.com/feed/'},
+        {'source': 'IndieWire', 'url': 'https://www.indiewire.com/t/tv/feed'},
+        {'source': 'Deadline', 'url': 'https://deadline.com/v/television/feed/'},
+        {'source': 'The Wrap', 'url': 'https://thewrap.com/feed/'},
+        {'source': 'New York Times', 'url': 'https://rss.nytimes.com/services/xml/rss/nyt/Television.xml'},
+        {'source': 'BBC', 'url': 'https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml'},
+        {'source': 'TV Series Finale', 'url': 'https://tvseriesfinale.com/feed/'},
+    ]
+
+    articles = []
+
+    with ThreadPoolExecutor(max_workers=7) as executor:
+        futures = {executor.submit(_fetch_feed, feed): feed for feed in feeds}
+        for future in as_completed(futures):
+            articles.extend(future.result())
+
+    articles.sort(key=lambda x: x['published'], reverse=True)
+
+    cache.set('news_articles', articles, 60 * 30)
+
+    return render(request, 'news.html', {'articles': articles})
 
 
 def reviews(request):
-    return render(request, 'reviews.html')
+    articles = Article.objects.filter(status='published').order_by('-published_at')
+    return render(request, 'reviews.html', {'articles': articles})
+
+
+def article_detail(request, slug):
+    article = get_object_or_404(Article, slug=slug, status='published')
+
+    related_articles = Article.objects.filter(
+        status='published'
+    ).exclude(id=article.id).order_by('-published_at')[:3]
+
+    context = {
+        'article': article,
+        'related_articles': related_articles,
+    }
+    return render(request, 'article_detail.html', context)
 
 
 def browse(request):
@@ -382,7 +512,8 @@ def browse_shows(request):
     if search:
         shows = shows.filter(
             Q(title__icontains=search) |
-            Q(creators__name__icontains=search)
+            Q(creators__name__icontains=search) |
+            Q(tags__genre__icontains=search)
         ).distinct()
 
     paginator = Paginator(shows, 24)

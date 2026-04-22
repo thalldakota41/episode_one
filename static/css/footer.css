@@ -1,59 +1,152 @@
-/* Footer styles */
+/* Import premium fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Source+Sans+3:wght@300;400;600&display=swap');
+
+/* Footer */
 .site-footer {
-    background-color: #D4AF37;
-    color: white;
+    background-color: #1a1a1a;
+    border-top: 1px solid #D4AF37;
 }
 
-.footer-content {
+.footer-top {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 60px 40px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    gap: 40px;
 }
 
-.footer-logo {
-    font-size: 28px;
-    font-weight: bold;
+/* Brand */
+.footer-brand {
+    flex: 0 0 280px;
+    max-width: 280px;
+}
+
+.footer-brand-name {
+    font-family: 'Cormorant Garamond', serif !important;
+    font-size: 32px !important;
+    font-weight: 300 !important;
+    color: white !important;
+    -webkit-text-fill-color: white !important;
+    letter-spacing: 4px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    margin-bottom: 15px;
+    display: block;
+    border-bottom: 1px solid #D4AF37;
+    padding-bottom: 12px;
 }
 
-.footer-links ul {
+.footer-tagline {
+    font-family: 'Source Sans 3', sans-serif !important;
+    font-size: 13px !important;
+    color: #888 !important;
+    -webkit-text-fill-color: #888 !important;
+    line-height: 1.7;
+    font-weight: 300 !important;
+    margin: 0 !important;
+    letter-spacing: 0.3px;
+}
+
+/* Nav columns */
+.footer-nav {
+    display: flex;
+    gap: 60px;
+    flex: 1;
+    justify-content: center;
+}
+
+.footer-nav-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-nav-header {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #D4AF37;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.footer-nav-column ul {
     list-style: none;
     padding: 0;
     margin: 0;
-}
-
-.footer-links li {
-    display: inline-block;
-    margin-right: 10px;
-}
-
-.footer-links a {
-    color: white;
-    text-decoration: none;
-}
-
-.footer-links a:hover {
-    text-decoration: underline;
-}
-
-.attribution-title {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.attribution-title .tmdb-logo {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
+.footer-nav-column ul li a {
+    font-family: 'Source Sans 3', sans-serif !important;
+    font-size: 13px !important;
+    color: #888 !important;
+    -webkit-text-fill-color: #888 !important;
+    text-decoration: none;
+    font-weight: 300 !important;
+    letter-spacing: 0.3px;
+    transition: color 0.3s, letter-spacing 0.3s;
 }
 
-.attribution-title p {
-    font-size: 14px;
-    margin: 0;
+.footer-nav-column ul li a:hover {
+    color: white !important;
+    -webkit-text-fill-color: white !important;
+    letter-spacing: 0.8px;
+}
+
+/* Attribution */
+.footer-attribution {
+    flex: 0 0 220px;
+    max-width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+.footer-tmdb-logo {
+    width: 50px;
+    height: 50px;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+.footer-tmdb-logo:hover {
+    opacity: 0.8;
+}
+
+.footer-attribution-text {
+    font-family: 'Source Sans 3', sans-serif !important;
+    font-size: 11px !important;
+    color: #888 !important;
+    -webkit-text-fill-color: #888 !important;
+    line-height: 1.6;
+    margin: 0 !important;
+    text-align: right;
+    font-weight: 300 !important;
+    letter-spacing: 0.3px;
+}
+
+/* Bottom bar */
+.footer-bottom {
+    border-top: 1px solid #2a2a2a;
+    padding: 20px 40px;
+    text-align: center;
+}
+
+.footer-bottom p {
+    font-family: 'Source Sans 3', sans-serif !important;
+    font-size: 11px !important;
+    color: #555 !important;
+    -webkit-text-fill-color: #555 !important;
+    margin: 0 !important;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 300 !important;
 }
 
 /* Sticky footer */
@@ -74,52 +167,53 @@ main {
 
 /* Mobile */
 @media (max-width: 768px) {
-    .footer-content {
+    .footer-top {
         flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 15px;
+        padding: 40px 25px;
+        gap: 35px;
     }
 
-    .footer-links ul {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
+    .footer-brand {
+        flex: none;
+        max-width: 100%;
     }
 
-    .footer-links li {
-        display: block;
-        margin-right: 0;
+    .footer-nav {
+        gap: 40px;
+        justify-content: flex-start;
     }
 
-    .attribution-title {
-        flex-direction: column;
-        align-items: center;
+    .footer-attribution {
+        flex: none;
+        max-width: 100%;
+        align-items: flex-start;
     }
 
-    .attribution-title .tmdb-logo {
-        margin-right: 0;
-        margin-bottom: 5px;
+    .footer-attribution-text {
+        text-align: left;
     }
 
-    .attribution-title p {
-        font-size: 12px;
-        text-align: center;
+    .footer-bottom {
+        padding: 15px 25px;
     }
 }
 
 @media (max-width: 480px) {
-    .footer-content {
-        padding: 15px;
-        gap: 10px;
+    .footer-top {
+        padding: 30px 20px;
+        gap: 25px;
     }
 
-    .footer-links a {
-        font-size: 13px;
+    .footer-nav {
+        flex-direction: column;
+        gap: 25px;
     }
 
-    .attribution-title p {
-        font-size: 11px;
+    .footer-bottom {
+        padding: 15px 20px;
+    }
+
+    .footer-bottom p {
+        font-size: 10px !important;
     }
 }

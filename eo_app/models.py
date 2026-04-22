@@ -94,6 +94,7 @@ class InfluentialShow(models.Model):
     def __str__(self):
         return f"Influential Show: {self.show.title}"
 
+
 class FeaturedShow(models.Model):
     show = models.ForeignKey(Show, on_delete=models.CASCADE)
     featured_date = models.DateField(auto_now_add=True)
@@ -104,3 +105,40 @@ class FeaturedShow(models.Model):
 
     def __str__(self):
         return f"Featured: {self.show.title} ({self.featured_date})"
+
+
+class Article(models.Model):
+    STATUS_CHOICES = [
+        ('draft', 'Draft'),
+        ('published', 'Published'),
+    ]
+
+    CATEGORY_CHOICES = [
+        ('television', 'Television'),
+        ('writers', 'Writers'),
+        ('craft', 'Craft'),
+        ('industry', 'Industry'),
+        ('pilots', 'Pilots'),
+    ]
+
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, max_length=200)
+    author = models.CharField(max_length=100, default='Episode One')
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='television')
+    cover_image = models.ImageField(upload_to='articles/', blank=True, null=True)
+    body = models.TextField()
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
+    created = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    published_at = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        ordering = ['-published_at']
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def reading_time(self):
+        word_count = len(self.body.split())
+        return max(1, round(word_count / 200))
