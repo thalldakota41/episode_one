@@ -14,6 +14,8 @@ if not DEBUG:
     if not host:
         raise Exception("DJANGO_ALLOWED_HOST must be set in production")
     ALLOWED_HOSTS.append(host)
+    ALLOWED_HOSTS.append('www.' + host)
+    ALLOWED_HOSTS.append('episode-one-7load.ondigitalocean.app')
 INSTALLED_APPS = [
     'eo_app',
     'dal',
@@ -107,3 +109,8 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    CSRF_TRUSTED_ORIGINS = [
+        'https://episodeonewriters.com',
+        'https://www.episodeonewriters.com',
+        'https://episode-one-7load.ondigitalocean.app',
+    ]
