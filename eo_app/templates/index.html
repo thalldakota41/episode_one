@@ -9,14 +9,6 @@
 
 {% block content %}
 
-<div class="banner">
-  <img src="{% static 'images/banner_img.png' %}" alt="Background Image" class="banner-bg">
-  <div class="banner-content">
-    <h1>You found us!</h1>
-    <p>Discover new television writers daily.</p>
-  </div>
-  <div class="banner-overlay"></div>
-</div>
 
 {% if featured_show %}
 <div class="featured-show fade-in">
@@ -53,7 +45,7 @@
 {% endif %}
 
 <div class="rec-added-tv-shows">
-  <div class="rec-added-tv-shows-header fade-in">Recently Added Pilots</div>
+  <div class="rec-added-tv-shows-header fade-in">RECENTLY ADDED PILOTS</div>
   <div class="rec-added-tv-posters">
     {% for show in shows %}
       <div class="rec-added-tv-poster pop-in">
@@ -82,7 +74,7 @@
 </div>
 
 <div class="creator-of-the-month">
-  <div class="creator-of-the-month-header fade-in">Suggested Show Creators</div>
+  <div class="creator-of-the-month-header fade-in">SUGGESTED SHOW CREATORS</div>
   <div class="creator-of-the-month-list">
     {% for creator_of_the_month in creators_of_the_month %}
       <div class="individual-creator-of-the-month fade-in">
@@ -119,7 +111,7 @@
 </div>
 
 <div class="staff-favorites">
-  <div class="staff-favorites-header fade-in">Staff Favorites</div>
+  <div class="staff-favorites-header fade-in">STAFF FAVORITES</div>
   <div class="staff-favorites-show-list">
     {% for favorite in staff_favorites %}
       <div class="staff-favorites-show-item pop-in">
@@ -142,7 +134,7 @@
 </div>
 
 <div class="influential-shows">
-  <div class="influential-shows-header fade-in">Influential Shows</div>
+  <div class="influential-shows-header fade-in">INFLUENTIAL SHOWS</div>
   <div class="influential-shows-show-list">
     {% for influential_show in influential_shows %}
       <div class="influential-shows-show-item pop-in">

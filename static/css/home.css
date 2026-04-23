@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Source+Sans+3:wght@300;400;600&display=swap');
+
 /* Banner */
 .banner {
   position: relative;
@@ -248,11 +250,15 @@
 }
 
 .rec-added-tv-shows-header {
-  font-size: 24px;
-  font-weight: bold;
-  text-decoration: underline;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 600;
+  font-style: italic;
+  text-decoration: none !important;
+  letter-spacing: 2px;
   margin-left: 15px;
   padding-top: 10px;
+  color: #1a1a1a;
 }
 
 .rec-added-tv-details p {
@@ -305,10 +311,14 @@
 }
 
 .staff-favorites-header {
-  font-size: 24px;
-  font-weight: bold;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 600;
+  font-style: italic;
+  text-decoration: none !important;
+  letter-spacing: 2px;
   margin-bottom: 10px;
-  text-decoration: underline;
+  color: #1a1a1a;
 }
 
 .staff-favorites-show-list {
@@ -400,10 +410,14 @@
 }
 
 .influential-shows-header {
-  font-size: 24px;
-  font-weight: bold;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 600;
+  font-style: italic;
+  text-decoration: none !important;
+  letter-spacing: 2px;
   margin-bottom: 10px;
-  text-decoration: underline;
+  color: #1a1a1a;
 }
 
 .influential-shows-show-list {
@@ -491,12 +505,16 @@
 
 /* Creator of the Month */
 .creator-of-the-month-header {
-  font-size: 24px;
-  font-weight: bold;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 600;
+  font-style: italic;
+  text-decoration: none !important;
+  letter-spacing: 2px;
   margin-bottom: 10px;
-  text-decoration: underline;
   margin-left: 15px;
   margin-top: 20px;
+  color: #1a1a1a;
 }
 
 .creator-of-the-month-list {
