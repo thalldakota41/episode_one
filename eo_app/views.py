@@ -290,12 +290,12 @@ def show_page(request, id):
 
         weighted = (high_tier[:3] + mid_tier[:2] + low_tier[:1])
         random.shuffle(weighted)
-        recommended = weighted[:6]
+        recommended = weighted[:7]
     else:
         recommended = []
 
-    if len(recommended) < 6:
-        needed = 6 - len(recommended)
+    if len(recommended) < 7:
+        needed = 7 - len(recommended)
         existing_ids = [s.id for s in recommended] + [show_obj.id]
         fallback = list(
             Show.objects

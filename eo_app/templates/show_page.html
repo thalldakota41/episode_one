@@ -4,82 +4,62 @@
 {% block title %}{{ show.title }} - Episode One{% endblock %}
 
 {% block extra_css %}
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% static 'css/show_page.css' %}">
 {% endblock %}
 
 {% block content %}
 
-<div class="container-2 fade-in">
-    <div class="poster">
+<div class="show-hero fade-in">
+    <div class="show-hero-poster">
         <img src="https://image.tmdb.org/t/p/w500/{{ show_info.poster_path }}" alt="{{ show.title }} Poster" loading="lazy">
-        {% if show.script %}
-        <div class="show-screenplay">
-            <button><a href="{{ show.script.url }}" target="_blank">Read Me</a></button>
-        </div>
-        {% endif %}
     </div>
-
-    <div class="data-container">
-        <div class="show-title">
-            <h1>{{ show.title }}</h1>
+    <div class="show-hero-details">
+        <div class="show-hero-meta">
+            {% for tag in show.tags.all %}
+                <span class="show-hero-tag">{{ tag }}</span>
+            {% endfor %}
         </div>
-
-        <div class="show-creator">
-            <p>Creator:
-                {% for creator in show.creators.all %}
-                    <a href="{% url 'creator' creator.id %}">{{ creator.name }}</a>{% if not forloop.last %}, {% endif %}
-                {% endfor %}
-            </p>
+        <h1 class="show-hero-title">{{ show.title }}</h1>
+        <div class="show-hero-creator">
+            Created by
+            {% for creator in show.creators.all %}
+                <a href="{% url 'creator' creator.id %}">{{ creator.name }}</a>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
         </div>
-
-        <div class="show-overview">
-            <p>{{ show_info.overview }}</p>
-            <h3>Genres</h3>
-            <div class="tags">
-                {% for tag in show.tags.all %}
-                <ul>
-                    <li>{{ tag }}</li>
-                </ul>
-                {% endfor %}
-            </div>
+        <p class="show-hero-overview">{{ show_info.overview }}</p>
+        <div class="show-hero-actions">
+            {% if show.script %}
+            <a href="{{ show.script.url }}" target="_blank" class="show-script-btn">Read Screenplay</a>
+            {% endif %}
         </div>
-
-        <!-- Social sharing -->
         <div class="share-bar">
             <span class="share-label">Share:</span>
             <a class="share-btn share-twitter"
-               href="https://twitter.com/intent/tweet?text=Check out the pilot that started {{ show.title }} on Episode One — read the screenplay that started it all.&url={{ request.build_absolute_uri }}"
+               href="https://twitter.com/intent/tweet?text=Check out the pilot that started {{ show.title }} on Episode One&url={{ request.build_absolute_uri }}"
                target="_blank"
-               rel="noopener noreferrer">
-                𝕏
-            </a>
+               rel="noopener noreferrer">𝕏</a>
             <a class="share-btn share-facebook"
                href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"
                target="_blank"
-               rel="noopener noreferrer">
-                f
-            </a>
-            <button class="share-btn share-instagram" onclick="copyLink('{{ request.build_absolute_uri }}')">
-                Copy Link
-            </button>
+               rel="noopener noreferrer">f</a>
+            <button class="share-btn share-copy" onclick="copyLink('{{ request.build_absolute_uri }}')">Copy Link</button>
         </div>
     </div>
 </div>
 
-<div class="rec-title fade-in">
-    <h5>Recommended Scripts</h5>
-</div>
-<div class="rec-nav-bar">
-    {% for title, data in recom_data.items %}
-        <a href="{% url 'show_page' data.id %}" class="rec-poster pop-in">
-            <img src="https://image.tmdb.org/t/p/w500/{{ data.poster_path }}" alt="{{ title }} Poster" loading="lazy">
-            <div class="poster-overlay">
-                <h3 class="poster-title">{{ title }}</h3>
-                <p class="poster-creator">{{ data.creator }}</p>
-            </div>
-        </a>
-    {% endfor %}
+<div class="show-recommended fade-in">
+    <h2 class="show-recommended-header">RECOMMENDED PILOTS</h2>
+    <div class="show-recommended-list">
+        {% for title, data in recom_data.items %}
+            <a href="{% url 'show_page' data.id %}" class="show-rec-card pop-in">
+                <img src="https://image.tmdb.org/t/p/w500/{{ data.poster_path }}" alt="{{ title }} Poster" loading="lazy">
+                <div class="show-rec-overlay">
+                    <p class="show-rec-title">{{ title }}</p>
+                    <p class="show-rec-creator">{{ data.creator }}</p>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
 </div>
 
 {% endblock content %}
@@ -88,11 +68,9 @@
 <script>
 function copyLink(url) {
     navigator.clipboard.writeText(url).then(function() {
-        const btn = document.querySelector('.share-instagram');
+        const btn = document.querySelector('.share-copy');
         btn.textContent = 'Copied!';
-        setTimeout(function() {
-            btn.textContent = 'Copy Link';
-        }, 2000);
+        setTimeout(function() { btn.textContent = 'Copy Link'; }, 2000);
     });
 }
 </script>
