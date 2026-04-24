@@ -2,12 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="This is a website for TV pilot screenplay download">
+    <meta name="description" content="A curated database of TV pilot screenplays and the writers behind them.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="script, screenplay, TV, pilot, writer, creator">
+    <meta name="keywords" content="script, screenplay, TV, pilot, writer, creator, television">
     <title>{% block title %}Episode One{% endblock %}</title>
 
     {% load static %}
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WBKSN1PJLR"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-WBKSN1PJLR');
+    </script>
 
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}">
