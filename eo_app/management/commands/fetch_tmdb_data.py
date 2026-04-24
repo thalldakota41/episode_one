@@ -71,7 +71,7 @@ class Command(BaseCommand):
             creator.shows.values_list('title', flat=True)
         )
 
-        # Loop through TMDB results and check known_for against our shows
+        # First priority — match by show title in known_for
         for result in results:
             known_for = result.get('known_for', [])
             for known in known_for:
@@ -80,8 +80,26 @@ class Command(BaseCommand):
                     self.stdout.write(f"  matched {creator.name} via show '{known_title}'")
                     return result
 
-        # No match found via shows — fall back to first result
-        self.stdout.write(f"  no show match for {creator.name}, using first result")
+        # Second priority — match by known_for_department = Writing
+        writing_results = [
+            r for r in results
+            if r.get('known_for_department', '').lower() == 'writing'
+        ]
+        if writing_results:
+            self.stdout.write(f"  matched {creator.name} via Writing department")
+            return writing_results[0]
+
+        # Third priority — match by known_for_department = Directing
+        directing_results = [
+            r for r in results
+            if r.get('known_for_department', '').lower() == 'directing'
+        ]
+        if directing_results:
+            self.stdout.write(f"  matched {creator.name} via Directing department")
+            return directing_results[0]
+
+        # Last resort — fall back to first result
+        self.stdout.write(f"  no good match for {creator.name}, using first result")
         return results[0] if results else {}
 
     def _find_best_show_match(self, results, show):
