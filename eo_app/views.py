@@ -340,6 +340,10 @@ def send_emails_async(subject, email_message, confirmation_subject, confirmation
 
 def comment_submit(request):
     if request.method == "POST":
+        # Honeypot check — bots fill this in, humans don't
+        if request.POST.get('website', ''):
+            return redirect(reverse('index'))
+        
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save()
@@ -357,7 +361,6 @@ def comment_submit(request):
 
             return redirect(reverse('thankyou'))
     return redirect(reverse('index'))
-
 
 def thankyou(request):
     return render(request, 'thankyou.html')
