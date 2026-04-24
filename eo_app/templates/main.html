@@ -36,16 +36,16 @@
 
 <nav class="navbar navbar-expand-lg" id="nav-bar">
     <a class="navbar-brand" href="{% url 'index' %}">
-<img src="{% static 'images/new_logo.svg' %}" alt="Episode One" id="icon">    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+        <img src="{% static 'images/new_logo.svg' %}" alt="Episode One" id="icon">
+    </a>
 
-    <form id="search-form" action="{% url 'search' %}" method="GET">
+    <!-- Desktop search -->
+    <form id="search-form" action="{% url 'search' %}" method="GET" class="desktop-search">
         <input type="text" name="search" id="search" placeholder="Search pilots, creators, genres..." autocomplete="off">
         <div id="search-results"></div>
     </form>
 
+    <!-- Desktop nav links -->
     <div class="nav-links">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
@@ -67,7 +67,46 @@
             </ul>
         </div>
     </div>
+
+    <!-- Mobile controls -->
+    <div class="mobile-controls">
+        <button class="mobile-search-toggle" id="mobile-search-toggle" aria-label="Search">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </button>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
 </nav>
+
+<!-- Mobile hamburger dropdown — outside navbar so it flows naturally -->
+<div id="mobile-nav-dropdown">
+    <ul class="mobile-nav-list">
+        <li><a href="{% url 'browse' %}">Browse</a></li>
+        <li><a href="{% url 'news' %}">News</a></li>
+        <li><a href="{% url 'reviews' %}">Articles</a></li>
+        <li><a href="{% url 'about' %}">Mission</a></li>
+        <li><a href="{% url 'comment' %}" class="mobile-nav-contact">Contact</a></li>
+    </ul>
+</div>
+
+<!-- Mobile search bar — outside navbar so it pushes content down -->
+<div id="mobile-search-bar">
+    <form action="{% url 'search' %}" method="GET" id="mobile-search-form">
+        <div class="mobile-search-inner">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" name="search" id="mobile-search-input" placeholder="Search pilots, creators, genres..." autocomplete="off">
+            <button type="button" id="mobile-search-close">✕</button>
+        </div>
+        <div id="mobile-search-results"></div>
+    </form>
+</div>
 
 <main>
     {% block content %}
